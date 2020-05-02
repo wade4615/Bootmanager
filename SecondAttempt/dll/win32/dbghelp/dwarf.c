@@ -948,7 +948,7 @@ static BOOL dwarf2_compute_location_attr(dwarf2_parse_context_t* ctx,
                                          sizeof(unsigned) + xloc.u.block.size);
             *ptr = xloc.u.block.size;
             memcpy(ptr + 1, xloc.u.block.ptr, xloc.u.block.size);
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
             loc->offset = (unsigned long)ptr;
 #else
             loc->offset = (uintptr_t)ptr;
@@ -2471,7 +2471,7 @@ static BOOL dwarf2_parse_compilation_unit(const dwarf2_section_t* sections,
         }
         if (dwarf2_find_attribute(&ctx, di, DW_AT_stmt_list, &stmt_list))
         {
-#if defined(__REACTOS__) && defined(__clang__)
+#if defined(__BOOTMANAGER__) && defined(__clang__)
             unsigned long stmt_list_val = stmt_list.u.uvalue;
             if (stmt_list_val > module->module.BaseOfImage)
             {

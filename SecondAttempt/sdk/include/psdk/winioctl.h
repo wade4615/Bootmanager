@@ -194,7 +194,7 @@ extern "C" {
 #define PARTITION_UNIX                0x63
 #define PARTITION_NTFT                0x80
 #define VALID_NTFT                    0xC0
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #define PARTITION_OLD_LINUX               0x43
 #define PARTITION_LINUX                   0x83
 #define PARTITION_FREEBSD                 0xA5
@@ -583,7 +583,7 @@ typedef struct {
   UCHAR FileRecordBuffer[1];
 } NTFS_FILE_RECORD_OUTPUT_BUFFER, *PNTFS_FILE_RECORD_OUTPUT_BUFFER;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #define IsRecognizedPartition(t)\
   (((t&PARTITION_NTFT)&&((t&~VALID_NTFT)==PARTITION_FAT_12))||\
     ((t&PARTITION_NTFT)&&((t&~VALID_NTFT)==PARTITION_FAT_16))||\

@@ -136,7 +136,7 @@ static struct namespace global_namespace = {
 
 static struct namespace *current_namespace = &global_namespace;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 static typelib_t *current_typelib;
 #endif
 
@@ -333,7 +333,7 @@ input: gbl_statements m_acf			{ fix_incomplete();
 						  write_client($1);
 						  write_server($1);
 						  write_regscript($1);
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 						  write_typelib_regscript($1);
 #endif
 						  write_dlldata($1);
@@ -436,7 +436,7 @@ import: import_start imp_statements aEOF	{ $$ = $1->name;
 	;
 
 importlib: tIMPORTLIB '(' aSTRING ')'
-/* ifdef __REACTOS__ */
+/* ifdef __BOOTMANAGER__ */
 	   semicolon_opt			{ $$ = $3; if(!parse_only) add_importlib($3); }
 /* else
 	   semicolon_opt			{ $$ = $3; if(!parse_only) add_importlib($3, current_typelib); }
@@ -447,7 +447,7 @@ libraryhdr: tLIBRARY aIDENTIFIER		{ $$ = $2; }
 	|   tLIBRARY aKNOWNTYPE			{ $$ = $2; }
 	;
 library_start: attributes libraryhdr '{'	{ $$ = make_library($2, check_library_attrs($2, $1));
-/* ifdef __REACTOS__ */
+/* ifdef __BOOTMANAGER__ */
 						  if (!parse_only) start_typelib($$);
 /* else
 						  if (!parse_only && do_typelib) current_typelib = $$;
@@ -455,7 +455,7 @@ library_start: attributes libraryhdr '{'	{ $$ = make_library($2, check_library_a
 						}
 	;
 librarydef: library_start imp_statements '}'
-/* ifdef __REACTOS__ */
+/* ifdef __BOOTMANAGER__ */
 	    semicolon_opt			{ $$ = $1;
 						  $$->stmts = $2;
 						  if (!parse_only) end_typelib();
@@ -2005,7 +2005,7 @@ static type_t *reg_typedefs(decl_spec_t *decl_spec, declarator_list_t *decls, at
         type->attrs = attrs;
   }
 
-#ifdef __REACTOS__ /* r53187 / 5bf224e */
+#ifdef __BOOTMANAGER__ /* r53187 / 5bf224e */
   /* Append the SWITCHTYPE attribute to a non-encapsulated union if it does not already have it.  */
   if (type_get_type_detect_alias(type) == TYPE_UNION &&
       is_attr(attrs, ATTR_SWITCHTYPE) &&

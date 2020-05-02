@@ -30,7 +30,7 @@
 
 #define NONAMELESSUNION
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <typedefs.h>
 #include <nls.h>
 #else

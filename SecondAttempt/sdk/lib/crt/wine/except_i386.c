@@ -839,7 +839,7 @@ static void msvcrt_local_unwind4( ULONG *cookie, MSVCRT_EXCEPTION_FRAME* frame, 
     __wine_pop_frame(&reg);
     TRACE("unwound OK\n");
 }
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 /*******************************************************************
  *		_local_unwind2 (MSVCRT.@)
  */
@@ -856,7 +856,7 @@ void CDECL _local_unwind4( ULONG *cookie, MSVCRT_EXCEPTION_FRAME* frame, int try
     msvcrt_local_unwind4( cookie, frame, trylevel, &frame->_ebp );
 }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 /*******************************************************************
  *		_global_unwind2 (MSVCRT.@)
  */
@@ -869,7 +869,7 @@ void CDECL _global_unwind2(EXCEPTION_REGISTRATION_RECORD* frame)
 void CDECL _global_unwind2(EXCEPTION_REGISTRATION_RECORD* frame);
 #endif
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 /*********************************************************************
  *		_except_handler2 (MSVCRT.@)
  */
@@ -955,7 +955,7 @@ int CDECL _except_handler3(PEXCEPTION_RECORD rec,
   TRACE("reached TRYLEVEL_END, returning ExceptionContinueSearch\n");
   return ExceptionContinueSearch;
 }
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 /*********************************************************************
  *		_except_handler4_common (MSVCRT.@)
  */

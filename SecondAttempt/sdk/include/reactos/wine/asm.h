@@ -107,7 +107,7 @@
 
 # ifdef _MSC_VER
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #  define DEFINE_THISCALL_WRAPPER(func,args) \
     __declspec(naked) void __thiscall_##func(void) \
     { \

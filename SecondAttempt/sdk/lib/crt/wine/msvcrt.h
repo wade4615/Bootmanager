@@ -1486,7 +1486,7 @@ typedef struct {
 
 #define INHERIT_THREAD_PRIORITY 0xF000
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #define __wine_longjmp longjmp
 #define __wine_jmp_buf _JBTYPE
 #endif

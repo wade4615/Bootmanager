@@ -152,7 +152,7 @@ HalEnableSystemInterrupt(
     _In_ KINTERRUPT_MODE InterruptMode
 );
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 NTHALAPI
 VOID
 NTAPI

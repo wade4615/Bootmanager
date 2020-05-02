@@ -27,12 +27,12 @@
 #endif
 #endif
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #include <io.h>
 #include <direct.h>
 #define mkdir(p,m) _mkdir(p)
 #endif
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 #endif /* ! __XSLT_LIBXSLT_H__ */

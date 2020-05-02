@@ -5,7 +5,7 @@ diff -prudN e:\freetype-2.6\src/autofit/afcjk.c e:\reactos\lib\3rdparty\freetype
                                FT_Face        face )
    {
      /* scan the array of segments in each direction */
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    AF_GlyphHintsRec *hints = malloc(sizeof(AF_GlyphHintsRec));
 +#else
      AF_GlyphHintsRec  hints[1];
@@ -17,7 +17,7 @@ diff -prudN e:\freetype-2.6\src/autofit/afcjk.c e:\reactos\lib\3rdparty\freetype
        FT_ULong          glyph_index;
        FT_Long           y_offset;
        int               dim;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +      AF_CJKMetricsRec *dummy = malloc(sizeof(AF_CJKMetricsRec));
 +#else
        AF_CJKMetricsRec  dummy[1];
@@ -29,7 +29,7 @@ diff -prudN e:\freetype-2.6\src/autofit/afcjk.c e:\reactos\lib\3rdparty\freetype
          }
  #endif
        }
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +      free(dummy);
 +#endif
      }
@@ -38,7 +38,7 @@ diff -prudN e:\freetype-2.6\src/autofit/afcjk.c e:\reactos\lib\3rdparty\freetype
  
      af_glyph_hints_done( hints );
 +
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(hints);
 +#endif
    }
@@ -51,7 +51,7 @@ diff -prudN e:\freetype-2.6\src/autofit/aflatin.c e:\reactos\lib\3rdparty\freety
                                  FT_Face          face )
    {
      /* scan the array of segments in each direction */
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    AF_GlyphHintsRec *hints = malloc(sizeof(AF_GlyphHintsRec));
 +#else
      AF_GlyphHintsRec  hints[1];
@@ -63,7 +63,7 @@ diff -prudN e:\freetype-2.6\src/autofit/aflatin.c e:\reactos\lib\3rdparty\freety
        FT_ULong            glyph_index;
        FT_Long             y_offset;
        int                 dim;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +      AF_LatinMetricsRec *dummy = malloc(sizeof(AF_LatinMetricsRec));
 +#else
        AF_LatinMetricsRec  dummy[1];
@@ -75,7 +75,7 @@ diff -prudN e:\freetype-2.6\src/autofit/aflatin.c e:\reactos\lib\3rdparty\freety
          }
  #endif
        }
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +      free(dummy);
 +#endif
      }
@@ -84,7 +84,7 @@ diff -prudN e:\freetype-2.6\src/autofit/aflatin.c e:\reactos\lib\3rdparty\freety
  
      af_glyph_hints_done( hints );
 +
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(hints);
 +#endif
 +
@@ -99,7 +99,7 @@ diff -prudN e:\freetype-2.6\src/autofit/afmodule.c e:\reactos\lib\3rdparty\freet
  
  #else /* !FT_DEBUG_AUTOFIT */
 -
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    AF_GlyphHintsRec *hints = malloc(sizeof(AF_GlyphHintsRec));
 +    AF_LoaderRec *loader = malloc(sizeof(AF_LoaderRec));
 +#else
@@ -113,7 +113,7 @@ diff -prudN e:\freetype-2.6\src/autofit/afmodule.c e:\reactos\lib\3rdparty\freet
      af_loader_done( loader );
      af_glyph_hints_done( hints );
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(hints);
 +    free(loader);
 +#endif
@@ -129,7 +129,7 @@ diff -prudN e:\freetype-2.6\src/base/ftbitmap.c e:\reactos\lib\3rdparty\freetype
              FT_Int  val = ss[0]; /* avoid a byte->int cast on each line */
  
 -
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +            tt[0] = (FT_Byte)( ( val & 0x80 ) ? 0xff : 0);
 +            tt[1] = (FT_Byte)( ( val & 0x40 ) ? 0xff : 0);
 +            tt[2] = (FT_Byte)( ( val & 0x20 ) ? 0xff : 0);
@@ -154,7 +154,7 @@ diff -prudN e:\freetype-2.6\src/base/ftbitmap.c e:\reactos\lib\3rdparty\freetype
  
              for ( ; j > 0; j-- )
              {
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +              tt[0] = (FT_Byte)( ( val & 0x80 ) ? 0xff : 0);
 +#else
                tt[0] = (FT_Byte)( ( val & 0x80 ) >> 7);
@@ -169,7 +169,7 @@ diff -prudN e:\freetype-2.6\src/cff/cf2intrp.c e:\reactos\lib\3rdparty\freetype\
      CF2_ArrStackRec  vStemHintArray;
  
      CF2_HintMaskRec   hintMask;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    CF2_GlyphPathRec *glyphPath = malloc(sizeof(CF2_GlyphPathRec));
 +/* Ugly but it allows us to reduce the diff */
 +#define glyphPath (*glyphPath)
@@ -183,7 +183,7 @@ diff -prudN e:\freetype-2.6\src/cff/cf2intrp.c e:\reactos\lib\3rdparty\freetype\
             * discard `counterMask' and `counterHintMap'.
             *
             */
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +          CF2_HintMapRec *counterHintMap = malloc(sizeof(CF2_HintMapRec));
 +/* Ugly but it allows us to reduce the diff */
 +#define counterHintMap (*counterHintMap)
@@ -197,7 +197,7 @@ diff -prudN e:\freetype-2.6\src/cff/cf2intrp.c e:\reactos\lib\3rdparty\freetype\
                               &counterMask,
                               0,
                               FALSE );
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +          free(&counterHintMap);
 +#endif
          }
@@ -207,7 +207,7 @@ diff -prudN e:\freetype-2.6\src/cff/cf2intrp.c e:\reactos\lib\3rdparty\freetype\
  
      FT_TRACE4(( "\n" ));
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(&glyphPath);
 +#undef counterHintMap
 +#undef glyphPath
@@ -223,7 +223,7 @@ diff -prudN e:\freetype-2.6\src/cid/cidgload.c e:\reactos\lib\3rdparty\freetype\
    {
      CID_GlyphSlot  glyph = (CID_GlyphSlot)cidglyph;
      FT_Error       error;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
 +/* Ugly but it allows us to reduce the diff */
 +#define decoder (*decoder)
@@ -237,7 +237,7 @@ diff -prudN e:\freetype-2.6\src/cid/cidgload.c e:\reactos\lib\3rdparty\freetype\
      }
  
    Exit:
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(&decoder);
 +#undef decoder
 +#endif
@@ -251,7 +251,7 @@ diff -prudN e:\freetype-2.6\src/raster/ftraster.c e:\reactos\lib\3rdparty\freety
      const FT_Outline*  outline    = (const FT_Outline*)params->source;
      const FT_Bitmap*   target_map = params->target;
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    FT_Error ret;
 +    black_TWorker *worker;
 +    Long *buffer;
@@ -267,7 +267,7 @@ diff -prudN e:\freetype-2.6\src/raster/ftraster.c e:\reactos\lib\3rdparty\freety
      if ( !target_map->buffer )
        return FT_THROW( Invalid );
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    worker = malloc(sizeof(black_TWorker));
 +    buffer = malloc(FT_MAX(FT_RENDER_POOL_SIZE, 2048));
 +#endif
@@ -276,13 +276,13 @@ diff -prudN e:\freetype-2.6\src/raster/ftraster.c e:\reactos\lib\3rdparty\freety
      ras.target  = *target_map;
  
      worker->buff     = buffer;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    worker->sizeBuff = buffer + (FT_MAX(FT_RENDER_POOL_SIZE, 2048) / sizeof(Long));
 +#else
      worker->sizeBuff = (&buffer)[1]; /* Points to right after buffer. */
 +#endif
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    ret = Render_Glyph(RAS_VAR);
 +    free(worker);
 +    free(buffer);
@@ -300,7 +300,7 @@ diff -prudN e:\freetype-2.6\src/smooth/ftgrays.c e:\reactos\lib\3rdparty\freetyp
      const FT_Outline*  outline     = (const FT_Outline*)params->source;
      const FT_Bitmap*   target_map  = params->target;
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    gray_TWorker *worker;
 +    int ret;
 +    TCell *buffer;
@@ -318,7 +318,7 @@ diff -prudN e:\freetype-2.6\src/smooth/ftgrays.c e:\reactos\lib\3rdparty\freetyp
      if ( !( params->flags & FT_RASTER_FLAG_AA ) )
        return FT_THROW( Invalid_Mode );
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    worker = malloc(sizeof(gray_TWorker));
 +#endif
 +
@@ -329,7 +329,7 @@ diff -prudN e:\freetype-2.6\src/smooth/ftgrays.c e:\reactos\lib\3rdparty\freetyp
        ras.clip_box.yMax =  32767L;
      }
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    buffer = malloc(buffer_size);
 +#endif
 +
@@ -340,7 +340,7 @@ diff -prudN e:\freetype-2.6\src/smooth/ftgrays.c e:\reactos\lib\3rdparty\freetyp
        ras.render_span_data = &ras;
      }
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    ret = gray_convert_glyph(RAS_VAR);
 +    free(worker);
 +    free(buffer);
@@ -358,7 +358,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
                            FT_Pos*  max_advance )
    {
      FT_Error       error;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
 +/* Ugly but it allows us to reduce the diff */
 +#define decoder (*decoder)
@@ -372,7 +372,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
                                             FT_RENDER_MODE_NORMAL,
                                             T1_Parse_Glyph );
      if ( error )
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    {
 +        free(&decoder);
 +        return error;
@@ -388,7 +388,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
  
      psaux->t1_decoder_funcs->done( &decoder );
 -
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(&decoder);
 +#undef decoder
 +#endif
@@ -399,7 +399,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
                     FT_Fixed*  advances )
    {
      T1_Face        face  = (T1_Face)t1face;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
 +/* Ugly but it allows us to reduce the diff */
 +#define decoder (*decoder)
@@ -413,7 +413,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
        for ( nn = 0; nn < count; nn++ )
          advances[nn] = 0;
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +      free(&decoder);
 +#endif
        return FT_Err_Ok;
@@ -423,7 +423,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
                                             FT_RENDER_MODE_NORMAL,
                                             T1_Parse_Glyph );
      if ( error )
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    {
 +        free(&decoder);
 +        return error;
@@ -439,7 +439,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
          advances[nn] = 0;
      }
 -
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(&decoder);
 +#undef decoder
 +#endif
@@ -450,7 +450,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
    {
      T1_GlyphSlot            glyph = (T1_GlyphSlot)t1glyph;
      FT_Error                error;
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
 +/* Ugly but it allows us to reduce the diff */
 +#define decoder (*decoder)
@@ -464,7 +464,7 @@ diff -prudN e:\freetype-2.6\src/type1/t1gload.c e:\reactos\lib\3rdparty\freetype
      if ( must_finish_decoder )
        decoder_funcs->done( &decoder );
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +    free(&decoder);
 +#undef decoder
 +#endif

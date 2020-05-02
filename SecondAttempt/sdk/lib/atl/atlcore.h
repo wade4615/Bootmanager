@@ -22,7 +22,7 @@
 
 #include <malloc.h>
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     #define WIN32_NO_STATUS
     #define _INC_WINDOWS
     #define COM_NO_WINDOWS_H

@@ -4803,7 +4803,7 @@ void write_func_param_struct( FILE *file, const type_t *iface, const type_t *fun
         if (align >= pointer_size)
             fprintf( file, "%s;\n", arg->name );
         else
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
             fprintf( file, "DECLSPEC_ALIGN(%u) %s;\n", pointer_size, arg->name );
 #else
             fprintf( file, "%s DECLSPEC_ALIGN(%u);\n", arg->name, pointer_size );

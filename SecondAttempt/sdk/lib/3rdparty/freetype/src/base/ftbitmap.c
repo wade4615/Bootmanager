@@ -601,7 +601,7 @@
           {
             FT_Int  val = ss[0]; /* avoid a byte->int cast on each line */
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
             tt[0] = (FT_Byte)( ( val & 0x80 ) ? 0xff : 0);
             tt[1] = (FT_Byte)( ( val & 0x40 ) ? 0xff : 0);
             tt[2] = (FT_Byte)( ( val & 0x20 ) ? 0xff : 0);
@@ -634,7 +634,7 @@
 
             for ( ; j > 0; j-- )
             {
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
               tt[0] = (FT_Byte)( ( val & 0x80 ) ? 0xff : 0);
 #else
               tt[0] = (FT_Byte)( ( val & 0x80 ) >> 7);

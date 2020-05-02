@@ -168,7 +168,7 @@
 #endif /* DECLSPEC_IMPORT */
 
 #ifndef DECLSPEC_EXPORT
- #if defined(__REACTOS__) || defined(__WINESRC__)
+ #if defined(__BOOTMANAGER__) || defined(__WINESRC__)
   #define DECLSPEC_EXPORT __declspec(dllexport)
  #endif
 #endif /* DECLSPEC_EXPORT */

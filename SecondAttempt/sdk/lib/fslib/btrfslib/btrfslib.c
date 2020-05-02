@@ -22,7 +22,7 @@
 #define WIN32_NO_STATUS
 #include <windef.h>
 #include <winbase.h>
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #include <winternl.h>
 #include <devioctl.h>
 #include <ntdddisk.h>
@@ -35,7 +35,7 @@
 #include <ntddstor.h>
 #include <ata.h>
 #include <mountmgr.h>
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <winnls.h>
 #include <stdbool.h>
 #include "btrfs.h"
@@ -57,7 +57,7 @@
 #include <intrin.h>
 #endif
 #endif
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__
 
 #define SHA256_HASH_SIZE 32
 void calc_sha256(uint8_t* hash, const void* input, size_t len);
@@ -65,7 +65,7 @@ void calc_sha256(uint8_t* hash, const void* input, size_t len);
 #define BLAKE2_HASH_SIZE 32
 void blake2b(void *out, size_t outlen, const void* in, size_t inlen);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #define FSCTL_LOCK_VOLUME               CTL_CODE(FILE_DEVICE_FILE_SYSTEM,  6, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define FSCTL_UNLOCK_VOLUME             CTL_CODE(FILE_DEVICE_FILE_SYSTEM,  7, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define FSCTL_DISMOUNT_VOLUME           CTL_CODE(FILE_DEVICE_FILE_SYSTEM,  8, METHOD_BUFFERED, FILE_ANY_ACCESS)
@@ -87,7 +87,7 @@ NTSTATUS NTAPI NtReadFile(HANDLE FileHandle, HANDLE Event, PIO_APC_ROUTINE ApcRo
 #ifdef __cplusplus
 }
 #endif
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__
 
 // These are undocumented, and what comes from format.exe
 typedef struct {
@@ -114,7 +114,7 @@ typedef struct {
     DSTRING* label;
 } options;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 FORCEINLINE VOID InitializeListHead(PLIST_ENTRY ListHead) {
     ListHead->Flink = ListHead->Blink = ListHead;
 }
@@ -130,7 +130,7 @@ FORCEINLINE VOID InsertTailList(PLIST_ENTRY ListHead, PLIST_ENTRY Entry) {
 }
 #endif
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 ULONG NTAPI NtGetTickCount(VOID);
 #endif
 
@@ -232,7 +232,7 @@ typedef enum {
 
 typedef BOOLEAN (NTAPI* PFMIFSCALLBACK)(CALLBACKCOMMAND Command, ULONG SubAction, PVOID ActionInfo);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 NTSTATUS WINAPI ChkdskEx(PUNICODE_STRING DriveRoot, BOOLEAN FixErrors, BOOLEAN Verbose, BOOLEAN CheckOnlyIfDirty,
 #else
 NTSTATUS NTAPI BtrfsChkdskEx(PUNICODE_STRING DriveRoot, BOOLEAN FixErrors, BOOLEAN Verbose, BOOLEAN CheckOnlyIfDirty,
@@ -255,14 +255,14 @@ NTSTATUS NTAPI BtrfsChkdskEx(PUNICODE_STRING DriveRoot, BOOLEAN FixErrors, BOOLE
 static btrfs_root* add_root(LIST_ENTRY* roots, uint64_t id) {
     btrfs_root* root;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     root = RtlAllocateHeap(RtlGetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(btrfs_root));
 #else
     root = malloc(sizeof(btrfs_root));
 #endif
 
     root->id = id;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     RtlZeroMemory(&root->header, sizeof(tree_header));
 #endif
     InitializeListHead(&root->items);
@@ -285,7 +285,7 @@ static void free_roots(LIST_ENTRY* roots) {
             btrfs_item* item = CONTAINING_RECORD(le3, btrfs_item, list_entry);
 
             if (item->data)
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
                 RtlFreeHeap(RtlGetProcessHeap(), 0, item->data);
 
             RtlFreeHeap(RtlGetProcessHeap(), 0, item);
@@ -298,7 +298,7 @@ static void free_roots(LIST_ENTRY* roots) {
             le3 = le4;
         }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
         RtlFreeHeap(RtlGetProcessHeap(), 0, r);
 #else
         free(r);
@@ -316,7 +316,7 @@ static void free_chunks(LIST_ENTRY* chunks) {
         LIST_ENTRY *le2 = le->Flink;
         btrfs_chunk* c = CONTAINING_RECORD(le, btrfs_chunk, list_entry);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         free(c->chunk_item);
         free(c);
 #else
@@ -332,7 +332,7 @@ static void add_item(btrfs_root* r, uint64_t obj_id, uint8_t obj_type, uint64_t 
     LIST_ENTRY* le;
     btrfs_item* item;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     item = malloc(sizeof(btrfs_item));
 #else
     item = RtlAllocateHeap(RtlGetProcessHeap(), 0, sizeof(btrfs_item));
@@ -346,7 +346,7 @@ static void add_item(btrfs_root* r, uint64_t obj_id, uint8_t obj_type, uint64_t 
     if (size == 0)
         item->data = NULL;
     else {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         item->data = malloc(size);
 #else
         item->data = RtlAllocateHeap(RtlGetProcessHeap(), 0, size);
@@ -423,7 +423,7 @@ static btrfs_chunk* add_chunk(LIST_ENTRY* chunks, uint64_t flags, btrfs_root* ch
     if (dev->dev_item.num_bytes - dev->dev_item.bytes_used < stripes * size) // not enough space
         return NULL;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     c = malloc(sizeof(btrfs_chunk));
 #else
     c = RtlAllocateHeap(RtlGetProcessHeap(), 0, sizeof(btrfs_chunk));
@@ -432,7 +432,7 @@ static btrfs_chunk* add_chunk(LIST_ENTRY* chunks, uint64_t flags, btrfs_root* ch
     c->lastoff = off;
     c->used = 0;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     c->chunk_item = malloc(sizeof(CHUNK_ITEM) + (stripes * sizeof(CHUNK_ITEM_STRIPE)));
 #else
     c->chunk_item = RtlAllocateHeap(RtlGetProcessHeap(), 0, sizeof(CHUNK_ITEM) + (stripes * sizeof(CHUNK_ITEM_STRIPE)));
@@ -630,7 +630,7 @@ static NTSTATUS write_roots(HANDLE h, LIST_ENTRY* roots, uint32_t node_size, BTR
     NTSTATUS Status;
     uint8_t* tree;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     tree = malloc(node_size);
 #else
     tree = RtlAllocateHeap(RtlGetProcessHeap(), 0, node_size);
@@ -683,7 +683,7 @@ static NTSTATUS write_roots(HANDLE h, LIST_ENTRY* roots, uint32_t node_size, BTR
 
         Status = write_data(h, r->header.address, r->c, tree, node_size);
         if (!NT_SUCCESS(Status)) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
             free(tree);
 #else
             RtlFreeHeap(RtlGetProcessHeap(), 0, tree);
@@ -694,7 +694,7 @@ static NTSTATUS write_roots(HANDLE h, LIST_ENTRY* roots, uint32_t node_size, BTR
         le = le->Flink;
     }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(tree);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, tree);
@@ -703,7 +703,7 @@ static NTSTATUS write_roots(HANDLE h, LIST_ENTRY* roots, uint32_t node_size, BTR
     return STATUS_SUCCESS;
 }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 static void get_uuid(BTRFS_UUID* uuid) {
 #else
 static void get_uuid(BTRFS_UUID* uuid, ULONG* seed) {
@@ -711,7 +711,7 @@ static void get_uuid(BTRFS_UUID* uuid, ULONG* seed) {
     uint8_t i;
 
     for (i = 0; i < 16; i+=2) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         ULONG r = rand();
 #else
         ULONG r = RtlRandom(seed);
@@ -722,7 +722,7 @@ static void get_uuid(BTRFS_UUID* uuid, ULONG* seed) {
     }
 }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 static void init_device(btrfs_dev* dev, uint64_t id, uint64_t size, BTRFS_UUID* fsuuid, uint32_t sector_size) {
 #else
 static void init_device(btrfs_dev* dev, uint64_t id, uint64_t size, BTRFS_UUID* fsuuid, uint32_t sector_size, ULONG* seed) {
@@ -739,7 +739,7 @@ static void init_device(btrfs_dev* dev, uint64_t id, uint64_t size, BTRFS_UUID* 
     dev->dev_item.dev_group = 0;
     dev->dev_item.seek_speed = 0;
     dev->dev_item.bandwidth = 0;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     get_uuid(&dev->dev_item.device_uuid);
 #else
     get_uuid(&dev->dev_item.device_uuid, seed);
@@ -798,7 +798,7 @@ static NTSTATUS write_superblocks(HANDLE h, btrfs_dev* dev, btrfs_root* chunk_ro
         le = le->Flink;
     }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     sb = malloc(sblen);
     memset(sb, 0, sblen);
 #else
@@ -826,7 +826,7 @@ static NTSTATUS write_superblocks(HANDLE h, btrfs_dev* dev, btrfs_root* chunk_ro
     memcpy(&sb->dev_item, &dev->dev_item, sizeof(DEV_ITEM));
 
     if (label->Length > 0) {
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
         ANSI_STRING as;
         unsigned int i;
 
@@ -837,7 +837,7 @@ static NTSTATUS write_superblocks(HANDLE h, btrfs_dev* dev, btrfs_root* chunk_ro
         for (unsigned int i = 0; i < label->Length / sizeof(WCHAR); i++) {
 #endif
             if (label->Buffer[i] == '/' || label->Buffer[i] == '\\') {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
                 free(sb);
 #else
                 RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -846,7 +846,7 @@ static NTSTATUS write_superblocks(HANDLE h, btrfs_dev* dev, btrfs_root* chunk_ro
             }
         }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         utf8len = WideCharToMultiByte(CP_UTF8, 0, label->Buffer, label->Length / sizeof(WCHAR), NULL, 0, NULL, NULL);
 
         if (utf8len == 0 || utf8len > MAX_LABEL_SIZE) {
@@ -893,7 +893,7 @@ static NTSTATUS write_superblocks(HANDLE h, btrfs_dev* dev, btrfs_root* chunk_ro
 
         Status = NtWriteFile(h, NULL, NULL, NULL, &iosb, sb, sblen, &off, NULL);
         if (!NT_SUCCESS(Status)) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
             free(sb);
 #else
             RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -904,7 +904,7 @@ static NTSTATUS write_superblocks(HANDLE h, btrfs_dev* dev, btrfs_root* chunk_ro
         i++;
     }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(sb);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -920,7 +920,7 @@ static __inline void win_time_to_unix(LARGE_INTEGER t, BTRFS_TIME* out) {
     out->nanoseconds = (l % 10000000) * 100;
 }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 VOID
 WINAPI
 GetSystemTimeAsFileTime(OUT PFILETIME lpFileTime)
@@ -941,7 +941,7 @@ GetSystemTimeAsFileTime(OUT PFILETIME lpFileTime)
 
 static void add_inode_ref(btrfs_root* r, uint64_t inode, uint64_t parent, uint64_t index, const char* name) {
     uint16_t name_len = (uint16_t)strlen(name);
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     INODE_REF* ir = malloc(offsetof(INODE_REF, name[0]) + name_len);
 #else
     INODE_REF* ir = RtlAllocateHeap(RtlGetProcessHeap(), 0, offsetof(INODE_REF, name[0]) + name_len);
@@ -953,7 +953,7 @@ static void add_inode_ref(btrfs_root* r, uint64_t inode, uint64_t parent, uint64
 
     add_item(r, inode, TYPE_INODE_REF, parent, ir, (uint16_t)offsetof(INODE_REF, name[0]) + ir->n);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(ir);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, ir);
@@ -1007,7 +1007,7 @@ static NTSTATUS clear_first_megabyte(HANDLE h) {
     LARGE_INTEGER zero;
     uint8_t* mb;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     mb = malloc(0x100000);
     memset(mb, 0, 0x100000);
 #else
@@ -1018,7 +1018,7 @@ static NTSTATUS clear_first_megabyte(HANDLE h) {
 
     Status = NtWriteFile(h, NULL, NULL, NULL, &iosb, mb, 0x100000, &zero, NULL);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(mb);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, mb);
@@ -1035,7 +1035,7 @@ static bool is_ssd(HANDLE h) {
     IDENTIFY_DEVICE_DATA* idd;
 
     aptelen = sizeof(ATA_PASS_THROUGH_EX) + 512;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     apte = malloc(aptelen);
 
     RtlZeroMemory(apte, aptelen);
@@ -1056,7 +1056,7 @@ static bool is_ssd(HANDLE h) {
         idd = (IDENTIFY_DEVICE_DATA*)((uint8_t*)apte + sizeof(ATA_PASS_THROUGH_EX));
 
         if (idd->NominalMediaRotationRate == 1) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
             free(apte);
 #else
             RtlFreeHeap(RtlGetProcessHeap(), 0, apte);
@@ -1065,7 +1065,7 @@ static bool is_ssd(HANDLE h) {
         }
     }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(apte);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, apte);
@@ -1077,7 +1077,7 @@ static bool is_ssd(HANDLE h) {
 static void add_dir_item(btrfs_root* root, uint64_t inode, uint32_t hash, uint64_t key_objid, uint8_t key_type,
                          uint64_t key_offset, uint64_t transid, uint8_t type, const char* name) {
     uint16_t name_len = (uint16_t)strlen(name);
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     DIR_ITEM* di = malloc(offsetof(DIR_ITEM, name[0]) + name_len);
 #else
     DIR_ITEM* di = RtlAllocateHeap(RtlGetProcessHeap(), 0, offsetof(DIR_ITEM, name[0]) + name_len);
@@ -1094,7 +1094,7 @@ static void add_dir_item(btrfs_root* root, uint64_t inode, uint32_t hash, uint64
 
     add_item(root, inode, TYPE_DIR_ITEM, hash, di, (uint16_t)(offsetof(DIR_ITEM, name[0]) + di->m + di->n));
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(di);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, di);
@@ -1142,11 +1142,11 @@ static NTSTATUS write_btrfs(HANDLE h, uint64_t size, PUNICODE_STRING label, uint
     BTRFS_UUID fsuuid, chunkuuid;
     bool ssd;
     uint64_t metadata_flags;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     ULONG seed;
 #endif
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     srand((unsigned int)time(0));
     get_uuid(&fsuuid);
     get_uuid(&chunkuuid);
@@ -1167,7 +1167,7 @@ static NTSTATUS write_btrfs(HANDLE h, uint64_t size, PUNICODE_STRING label, uint
     fs_root = add_root(&roots, BTRFS_ROOT_FSTREE);
     reloc_root = add_root(&roots, BTRFS_ROOT_DATA_RELOC);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     init_device(&dev, 1, size, &fsuuid, sector_size);
 #else
     init_device(&dev, 1, size, &fsuuid, sector_size, &seed);
@@ -1292,7 +1292,7 @@ static bool is_mounted_multi_device(HANDLE h, uint32_t sector_size) {
     if (sblen & (sector_size - 1))
         sblen = (sblen & sector_size) + sector_size;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     sb = malloc(sblen);
 #else
     sb = RtlAllocateHeap(RtlGetProcessHeap(), 0, sblen);
@@ -1302,7 +1302,7 @@ static bool is_mounted_multi_device(HANDLE h, uint32_t sector_size) {
 
     Status = NtReadFile(h, NULL, NULL, NULL, &iosb, sb, sblen, &off, NULL);
     if (!NT_SUCCESS(Status)) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         free(sb);
 #else
         RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -1311,7 +1311,7 @@ static bool is_mounted_multi_device(HANDLE h, uint32_t sector_size) {
     }
 
     if (sb->magic != BTRFS_MAGIC) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         free(sb);
 #else
         RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -1320,7 +1320,7 @@ static bool is_mounted_multi_device(HANDLE h, uint32_t sector_size) {
     }
 
     if (!check_superblock_checksum(sb)) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         free(sb);
 #else
         RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -1331,7 +1331,7 @@ static bool is_mounted_multi_device(HANDLE h, uint32_t sector_size) {
     fsuuid = sb->uuid;
     devuuid = sb->dev_item.device_uuid;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     free(sb);
 #else
     RtlFreeHeap(RtlGetProcessHeap(), 0, sb);
@@ -1352,7 +1352,7 @@ static bool is_mounted_multi_device(HANDLE h, uint32_t sector_size) {
     do {
         bfssize += 1024;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         if (bfs) free(bfs);
         bfs = malloc(bfssize);
 #else
@@ -1393,7 +1393,7 @@ end:
     NtClose(h2);
 
     if (bfs)
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         free(bfs);
 #else
         RtlFreeHeap(RtlGetProcessHeap(), 0, bfs);
@@ -1423,7 +1423,7 @@ static bool is_power_of_two(ULONG i) {
     return ((i != 0) && !(i & (i - 1)));
 }
 
-#if !defined(__REACTOS__) && (defined(_X86_) || defined(_AMD64_))
+#if !defined(__BOOTMANAGER__) && (defined(_X86_) || defined(_AMD64_))
 static void check_cpu() {
     unsigned int cpuInfo[4];
     bool have_sse42;
@@ -1441,11 +1441,11 @@ static void check_cpu() {
 }
 #endif
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 static NTSTATUS NTAPI FormatEx2(PUNICODE_STRING DriveRoot, FMIFS_MEDIA_FLAG MediaFlag, PUNICODE_STRING Label,
 #else
 NTSTATUS NTAPI BtrfsFormatEx(PUNICODE_STRING DriveRoot, FMIFS_MEDIA_FLAG MediaFlag, PUNICODE_STRING Label,
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__
                                 BOOLEAN QuickFormat, ULONG ClusterSize, PFMIFSCALLBACK Callback)
 {
     NTSTATUS Status;
@@ -1456,7 +1456,7 @@ NTSTATUS NTAPI BtrfsFormatEx(PUNICODE_STRING DriveRoot, FMIFS_MEDIA_FLAG MediaFl
     DISK_GEOMETRY dg;
     uint32_t sector_size, node_size;
     UNICODE_STRING btrfsus;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     HANDLE token;
     TOKEN_PRIVILEGES tp;
     LUID luid;
@@ -1466,7 +1466,7 @@ NTSTATUS NTAPI BtrfsFormatEx(PUNICODE_STRING DriveRoot, FMIFS_MEDIA_FLAG MediaFl
 
     static WCHAR btrfs[] = L"\\Btrfs";
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &token))
         return STATUS_PRIVILEGE_NOT_HELD;
 
@@ -1589,7 +1589,7 @@ end:
             ULONG mdnsize;
 
             mdnsize = (ULONG)(offsetof(MOUNTDEV_NAME, Name[0]) + DriveRoot->Length);
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
             mdn = malloc(mdnsize);
 #else
             mdn = RtlAllocateHeap(RtlGetProcessHeap(), 0, mdnsize);
@@ -1600,7 +1600,7 @@ end:
 
             NtDeviceIoControlFile(btrfsh, NULL, NULL, NULL, &iosb, IOCTL_BTRFS_PROBE_VOLUME, mdn, mdnsize, NULL, 0);
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
             free(mdn);
 #else
             RtlFreeHeap(RtlGetProcessHeap(), 0, mdn);
@@ -1638,7 +1638,7 @@ BOOL __stdcall FormatEx(DSTRING* root, STREAM_MESSAGE* message, options* opts, u
         Label.Buffer = NULL;
     }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     Status = FormatEx2(&DriveRoot, FMIFS_HARDDISK, &Label, opts && opts->flags & FORMAT_FLAG_QUICK_FORMAT, 0, NULL);
 #else
     Status = BtrfsFormatEx(&DriveRoot, FMIFS_HARDDISK, &Label, opts && opts->flags & FORMAT_FLAG_QUICK_FORMAT, 0, NULL);
@@ -1669,7 +1669,7 @@ BOOL __stdcall GetFilesystemInformation(uint32_t unk1, uint32_t unk2, void* unk3
     return true;
 }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, void* lpReserved) {
     if (dwReason == DLL_PROCESS_ATTACH)
         module = (HMODULE)hModule;

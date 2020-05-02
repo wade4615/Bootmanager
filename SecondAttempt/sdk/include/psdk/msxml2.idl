@@ -1286,7 +1286,7 @@ interface IXSLProcessor : IDispatch
     HRESULT addParameter(
         [in] BSTR p, 
         [in] VARIANT var, 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         [in, defaultvalue(L"")] BSTR uri);
 #else
         [in] BSTR uri);

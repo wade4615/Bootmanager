@@ -615,7 +615,7 @@ static BOOL pe_load_msc_debug_info(const struct process* pcs, struct module* mod
 
     dbg = RtlImageRvaToVa(nth, mapping, dir->VirtualAddress, NULL);
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     if (!dbg)
     {
         ERR("Debug directory not found in module %s\n",

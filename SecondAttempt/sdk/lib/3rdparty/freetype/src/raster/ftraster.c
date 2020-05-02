@@ -3146,7 +3146,7 @@
     const FT_Outline*  outline    = (const FT_Outline*)params->source;
     const FT_Bitmap*   target_map = params->target;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     FT_Error ret;
     black_TWorker *worker;
     Long *buffer;
@@ -3205,7 +3205,7 @@
       }
     }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     worker = malloc(sizeof(black_TWorker));
     buffer = malloc(FT_MAX(FT_RENDER_POOL_SIZE, 2048));
     if (!worker || !buffer)
@@ -3220,13 +3220,13 @@
     ras.target  = *target_map;
 
     worker->buff     = buffer;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     worker->sizeBuff = buffer + FT_MAX_BLACK_POOL;
 #else
     worker->sizeBuff = (&buffer)[1]; /* Points to right after buffer. */
 #endif
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     ret = Render_Glyph(RAS_VAR);
     free(worker);
     free(buffer);

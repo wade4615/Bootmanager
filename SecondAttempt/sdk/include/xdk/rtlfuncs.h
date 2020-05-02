@@ -35,7 +35,7 @@ RtlFailFast(
 #define NO_KERNEL_LIST_ENTRY_CHECKS
 #endif
 
-#if !defined(EXTRA_KERNEL_LIST_ENTRY_CHECKS) && defined(__REACTOS__)
+#if !defined(EXTRA_KERNEL_LIST_ENTRY_CHECKS) && defined(__BOOTMANAGER__)
 #define EXTRA_KERNEL_LIST_ENTRY_CHECKS
 #endif
 
@@ -3314,7 +3314,7 @@ RtlCheckBit(
 # define NT_ASSERTMSGW NT_ASSERTMSGW_NOASSUME
 #endif /* NT_ASSERT_ALWAYS_ASSUMES */
 
-#if defined(_MSC_VER) && (defined(__REACTOS__) || defined(ASSERT_ALWAYS_NT_ASSERT)) && !defined(_BLDR_)
+#if defined(_MSC_VER) && (defined(__BOOTMANAGER__) || defined(ASSERT_ALWAYS_NT_ASSERT)) && !defined(_BLDR_)
 #undef ASSERT
 #define ASSERT NT_ASSERT
 #undef ASSERTMSG

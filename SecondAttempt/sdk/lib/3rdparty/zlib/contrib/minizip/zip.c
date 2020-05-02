@@ -856,7 +856,7 @@ extern zipFile ZEXPORT zipOpen3 (const void *pathname, int append, zipcharpc* gl
 
     ziinit.z_filefunc.zseek32_file = NULL;
     ziinit.z_filefunc.ztell32_file = NULL;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     if (pzlib_filefunc64_32_def==NULL)
         fill_fopen64_filefunc(&ziinit.z_filefunc.zfile_func64);
     else
@@ -922,7 +922,7 @@ extern zipFile ZEXPORT zipOpen3 (const void *pathname, int append, zipcharpc* gl
     }
 }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 extern zipFile ZEXPORT zipOpen2 (const char *pathname, int append, zipcharpc* globalcomment, zlib_filefunc_def* pzlib_filefunc32_def)
 {
     if (pzlib_filefunc32_def != NULL)

@@ -21,9 +21,9 @@
 #ifndef __WINE_WINTERNL_H
 #define __WINE_WINTERNL_H
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #include <ntdef.h>
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 #include <windef.h>
 
 #include <windef.h>

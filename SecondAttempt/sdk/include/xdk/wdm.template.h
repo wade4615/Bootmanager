@@ -166,7 +166,7 @@ $define(USHORT=USHORT)
 #if !defined(USE_DMA_MACROS) && !defined(_NTHAL_)
 #define USE_DMA_MACROS
 #endif
-#if !defined(NO_LEGACY_DRIVERS) && !defined(__REACTOS__)
+#if !defined(NO_LEGACY_DRIVERS) && !defined(__BOOTMANAGER__)
 #define NO_LEGACY_DRIVERS
 #endif
 #endif /* defined(_WIN64) */

@@ -52,14 +52,14 @@ endif()
 # Compiler flags handling
 include(sdk/cmake/compilerflags.cmake)
 
-add_definitions(-D__REACTOS__)
+add_definitions(-D__BOOTMANAGER__)
 
 # Double escape, since CMake unescapes before putting it on the command-line, where it's unescaped again by GCC/CL.
-add_definitions(-DREACTOS_SOURCE_DIR="${BOOTMANAGER_SOURCE_DIR}")
-add_definitions(-DREACTOS_BINARY_DIR="${REACTOS_BINARY_DIR}")
+add_definitions(-DBOOTMANAGER_SOURCE_DIR="${BOOTMANAGER_SOURCE_DIR}")
+add_definitions(-DBOOTMANAGER_BINARY_DIR="${BOOTMANAGER_BINARY_DIR}")
 
 # There doesn't seem to be a standard for __FILE__ being relative or absolute, so detect it at runtime.
-file(RELATIVE_PATH _PATH_PREFIX ${REACTOS_BINARY_DIR} ${BOOTMANAGER_SOURCE_DIR})
+file(RELATIVE_PATH _PATH_PREFIX ${BOOTMANAGER_BINARY_DIR} ${BOOTMANAGER_SOURCE_DIR})
 add_compile_flags(-D__RELFILE__="&__FILE__[__FILE__[0] == '.' ? sizeof \\\"${_PATH_PREFIX}\\\" - 1 : sizeof BOOTMANAGER_SOURCE_DIR]")
 
 if(MSVC_IDE)
@@ -213,12 +213,12 @@ else()
         sdk/include
         sdk/include/psdk
         sdk/include/dxsdk
-        ${REACTOS_BINARY_DIR}/sdk/include
-        ${REACTOS_BINARY_DIR}/sdk/include/psdk
-        ${REACTOS_BINARY_DIR}/sdk/include/dxsdk
-        ${REACTOS_BINARY_DIR}/sdk/include/ddk
-        ${REACTOS_BINARY_DIR}/sdk/include/reactos
-        ${REACTOS_BINARY_DIR}/sdk/include/reactos/mc
+        ${BOOTMANAGER_BINARY_DIR}/sdk/include
+        ${BOOTMANAGER_BINARY_DIR}/sdk/include/psdk
+        ${BOOTMANAGER_BINARY_DIR}/sdk/include/dxsdk
+        ${BOOTMANAGER_BINARY_DIR}/sdk/include/ddk
+        ${BOOTMANAGER_BINARY_DIR}/sdk/include/reactos
+        ${BOOTMANAGER_BINARY_DIR}/sdk/include/reactos/mc
         sdk/include/crt
         sdk/include/ddk
         sdk/include/ndk
@@ -249,9 +249,9 @@ else()
 
     # For MSVC builds, this puts all debug symbols file in the same directory.
     if (MSVC)
-        set(CMAKE_PDB_OUTPUT_DIRECTORY "${REACTOS_BINARY_DIR}/msvc_pdb")
+        set(CMAKE_PDB_OUTPUT_DIRECTORY "${BOOTMANAGER_BINARY_DIR}/msvc_pdb")
     elseif(SEPARATE_DBG)
-        set(CMAKE_PDB_OUTPUT_DIRECTORY "${REACTOS_BINARY_DIR}/symbols")
+        set(CMAKE_PDB_OUTPUT_DIRECTORY "${BOOTMANAGER_BINARY_DIR}/symbols")
     endif()
 
 endif()

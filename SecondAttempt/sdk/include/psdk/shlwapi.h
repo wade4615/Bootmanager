@@ -2072,7 +2072,7 @@ BOOL WINAPI IsOS(DWORD);
 typedef struct
 {
     const IID *piid;
-#if defined(__REACTOS__) || (WINVER >= _WIN32_WINNT_WIN10)
+#if defined(__BOOTMANAGER__) || (WINVER >= _WIN32_WINNT_WIN10)
     DWORD dwOffset;
 #else
     int dwOffset;

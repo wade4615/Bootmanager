@@ -113,7 +113,7 @@ RxExclusivePrefixTableLockToShared(
 #define RxIsPrefixTableLockAcquired(T) (ExIsResourceAcquiredSharedLite(&(T)->TableLock) || \
                                         ExIsResourceAcquiredExclusiveLite(&(T)->TableLock))
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #define HASH_BUCKET(T, H) &(T)->HashBuckets[H % (T)->TableSize]
 #endif
 

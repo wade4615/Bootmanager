@@ -403,7 +403,7 @@ _FUNCTION_ {
                         else exp += e;
                     }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
                     /* ReactOS: don't inline float processing (kernel/freeldr don't like that! */
                     _internal_handle_float(negative, exp, suppress, d, l_prefix || L_prefix, &ap);
                     st = 1;
@@ -437,7 +437,7 @@ _FUNCTION_ {
                         else if (l_prefix) _SET_NUMBER_(double);
                         else _SET_NUMBER_(float);
                     }
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
                 }
                 break;
 		/* According to msdn,

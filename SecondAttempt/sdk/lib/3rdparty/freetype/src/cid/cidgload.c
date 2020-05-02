@@ -341,7 +341,7 @@
   {
     CID_GlyphSlot  glyph = (CID_GlyphSlot)cidglyph;
     FT_Error       error;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
     if (!decoder) return FT_Err_Out_Of_Memory;
 /* Ugly but it allows us to reduce the diff */
@@ -532,7 +532,7 @@
     if ( must_finish_decoder )
       psaux->t1_decoder_funcs->done( &decoder );
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     free(&decoder);
 #undef decoder
     }

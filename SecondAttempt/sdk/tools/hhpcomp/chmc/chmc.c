@@ -103,14 +103,14 @@ int chmc_pmgi_add_entry(struct chmcFile *chm, const char *name, int pmgl_id);
 void chmc_pmgi_add(struct chmcFile *chm, struct chmcPmgiChunkNode *pmgi);
 void chmc_string_init(struct chmcStringChunk *node);
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 int chmc_uncompressed_done(struct chmcFile *chm);
 int chmc_pmgi_done(struct chmcFile *chm);
 int chmc_write(struct chmcFile *chm);
 int chmc_appendfile(struct chmcFile *chm, const char *filename, void *buf,
                 size_t size );
 int chmc_pmgl_add_entry(struct chmcFile *chm, struct chmcTreeNode *entry);
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 struct chmcLzxInfo
 {

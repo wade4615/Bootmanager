@@ -41,12 +41,12 @@
 #endif
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <winnls.h>
-#else /* __REACTOS__ */
+#else /* __BOOTMANAGER__ */
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 #endif
 
 #if defined(_WIN32_WCE)

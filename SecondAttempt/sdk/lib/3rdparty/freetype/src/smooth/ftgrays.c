@@ -1744,7 +1744,7 @@ typedef ptrdiff_t  FT_PtrDist;
     const TCoord  xMin = ras.min_ex;
     const TCoord  xMax = ras.max_ex;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     TCell *buffer;
 #else
     TCell    buffer[FT_MAX_GRAY_POOL];
@@ -1755,7 +1755,7 @@ typedef ptrdiff_t  FT_PtrDist;
     TCoord   bands[32];  /* enough to accommodate bisections */
     TCoord*  band;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     buffer = malloc(FT_MAX(FT_RENDER_POOL_SIZE, 2048));
     if (!buffer)
     {
@@ -1811,7 +1811,7 @@ typedef ptrdiff_t  FT_PtrDist;
         }
         else if ( error != ErrRaster_Memory_Overflow )
         {
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
           free(buffer);
 #endif
           return 1;
@@ -1824,7 +1824,7 @@ typedef ptrdiff_t  FT_PtrDist;
         if ( width == 0 )
         {
           FT_TRACE7(( "gray_convert_glyph: rotten glyph\n" ));
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
           free(buffer);
 #endif
           return 1;
@@ -1836,7 +1836,7 @@ typedef ptrdiff_t  FT_PtrDist;
       } while ( band >= bands );
     }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     free(buffer);
 #endif
 

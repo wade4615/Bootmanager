@@ -7,7 +7,7 @@
 
 #pragma once
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     #include <cstddef>
     #include <pseh/pseh2.h>
 #endif

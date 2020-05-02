@@ -51,5 +51,5 @@ if(EXISTS "${BOOTMANAGER_SOURCE_DIR}/.git")
     endif()
 endif()
 
-configure_file(sdk/include/reactos/version.h.cmake ${REACTOS_BINARY_DIR}/sdk/include/reactos/version.h)
-configure_file(sdk/include/reactos/buildno.h.cmake ${REACTOS_BINARY_DIR}/sdk/include/reactos/buildno.h)
+configure_file(sdk/include/reactos/version.h.cmake ${BOOTMANAGER_BINARY_DIR}/sdk/include/reactos/version.h)
+configure_file(sdk/include/reactos/buildno.h.cmake ${BOOTMANAGER_BINARY_DIR}/sdk/include/reactos/buildno.h)

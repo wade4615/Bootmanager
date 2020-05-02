@@ -47,7 +47,7 @@ typedef struct _change {
 } CHANGE;
 
 static CHANGE *changes, *last;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 static int fd, did_change = 0;
 #else
 static int did_change = 0;
@@ -159,7 +159,7 @@ static off_t WIN32lseek(HANDLE fd, off_t offset, int whence)
 #endif
 
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 void fs_open(char *path, int rw)
 {
     if ((fd = open(path, rw ? O_RDWR : O_RDONLY)) < 0) {
@@ -284,7 +284,7 @@ void fs_read(off_t pos, int size, void *data)
     CHANGE *walk;
     int got;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 	const size_t readsize_aligned = (size % 512) ? (size + (512 - (size % 512))) : size;
  	const off_t seekpos_aligned = pos - (pos % 512);
  	const size_t seek_delta = (size_t)(pos - seekpos_aligned);
@@ -324,7 +324,7 @@ int fs_test(off_t pos, int size)
     void *scratch;
     int okay;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 	const size_t readsize_aligned = (size % 512) ? (size + (512 - (size % 512))) : size;        // TMN:
 	const off_t seekpos_aligned = pos - (pos % 512);                   // TMN:
     scratch = alloc(readsize_aligned);
@@ -346,7 +346,7 @@ void fs_write(off_t pos, int size, void *data)
     CHANGE *new;
     int did;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     assert(interactive || rw);
 
     if (FsCheckFlags & FSCHECK_IMMEDIATE_WRITE) {
@@ -408,7 +408,7 @@ void fs_write(off_t pos, int size, void *data)
 
 static void fs_flush(void)
 {
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 
     CHANGE *this;
     int old_write_immed = (FsCheckFlags & FSCHECK_IMMEDIATE_WRITE);

@@ -192,7 +192,7 @@ diff -pudN e:\wine\dlls\dbghelp/dbghelp_private.h e:\reactos\dll\win32\dbghelp/d
      } u;
  };
  
-+#ifdef __REACTOS__
++#ifdef __BOOTMANAGER__
 +struct symt_idx_to_ptr
 +{
 +    struct hash_table_elt hash_elt;
@@ -242,7 +242,7 @@ diff -pudN e:\wine\dlls\dbghelp/dwarf.c e:\reactos\dll\win32\dbghelp/dwarf.c
          }
          if (dwarf2_find_attribute(&ctx, di, DW_AT_stmt_list, &stmt_list))
          {
-+#if defined(__REACTOS__) && defined(__clang__)
++#if defined(__BOOTMANAGER__) && defined(__clang__)
 +            unsigned long stmt_list_val = stmt_list.u.uvalue;
 +            if (stmt_list_val > module->module.BaseOfImage)
 +            {

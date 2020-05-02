@@ -461,7 +461,7 @@ FT_BEGIN_HEADER
 #define FT_EXPORT( x )  extern  x
 #endif
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #ifdef _MSC_VER
 #undef FT_EXPORT
 #ifdef _DLL
@@ -470,7 +470,7 @@ FT_BEGIN_HEADER
 #define FT_EXPORT( x )  __declspec( dllimport )  x
 #endif
 #endif
-#endif /* !__REACTOS__ */
+#endif /* !__BOOTMANAGER__ */
 
 #endif /* !FT_EXPORT */
 

@@ -3425,7 +3425,7 @@ RtlFindSetBitsAndClear(
     _In_ ULONG HintIndex
 );
 
-#ifdef __REACTOS__ // ReactOS improvement
+#ifdef __BOOTMANAGER__ // ReactOS improvement
 _At_(BitMapHeader->SizeOfBitMap, _Post_equal_to_(SizeOfBitMap))
 _At_(BitMapHeader->Buffer, _Post_equal_to_(BitMapBuffer))
 #endif

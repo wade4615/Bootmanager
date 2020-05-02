@@ -41,24 +41,24 @@
 #endif
 #endif
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 /* This is for Visual Studio, so this header works as distributed in the binary downloads */
 #if defined(_MSC_VER) && !defined(MPG123_DEF_SSIZE_T)
 #define MPG123_DEF_SSIZE_T
 #include <stddef.h>
 typedef ptrdiff_t ssize_t;
 #endif
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 #ifndef MPG123_NO_CONFIGURE /* Enable use of this file without configure. */
 #include <stdlib.h>
 #include <sys/types.h>
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #ifndef ssize_t
 typedef long ssize_t;
 #endif
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 /* Simplified large file handling.
 	I used to have a check here that prevents building for a library with conflicting large file setup

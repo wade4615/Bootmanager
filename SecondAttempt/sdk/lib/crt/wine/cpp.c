@@ -138,9 +138,9 @@ static void EXCEPTION_ctor(exception *_this, const char** name)
   }
 }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <internal/wine_msc.h>
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 /******************************************************************
  *		??0exception@@QAE@ABQBD@Z (MSVCRT.@)

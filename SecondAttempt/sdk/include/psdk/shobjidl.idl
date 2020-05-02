@@ -2206,7 +2206,7 @@ interface IDefaultExtractIconInit : IUnknown
 }
 
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 /*****************************************************************************
  * IExplorerCommand interface (Vista+)
  */
@@ -2353,7 +2353,7 @@ interface IExplorerCommandProvider : IUnknown
                     [out, iid_is(riid)] void **ppv);
 };
 
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__
 
 /*****************************************************************************
  * IDeskBand interface
@@ -4442,7 +4442,7 @@ library ShellObjects
         interface IApplicationActivationManager;
     }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     [
         uuid(0010890e-8789-413c-adbc-48f5b511b3af)
     ]
@@ -4450,7 +4450,7 @@ library ShellObjects
     {
         interface IUserNotification;
     }
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__
 
 }
 
@@ -4647,7 +4647,7 @@ interface IFolderBandPriv : IUnknown
 }
 
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 /*****************************************************************************
  * IQueryContinue interface
  */
@@ -4768,4 +4768,4 @@ interface IItemNameLimits : IUnknown
         [out] int *piMaxNameLen);
 };
 
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__

@@ -855,7 +855,7 @@ extern "C" {
 #define GWL_USERDATA (-21)
 #define GWLP_USERDATA (-21)
 
-#ifndef __REACTOS__ // NEVER USE THESE!
+#ifndef __BOOTMANAGER__ // NEVER USE THESE!
 #define DWL_MSGRESULT 0
 #define DWL_DLGPROC 4
 #define DWL_USER 8

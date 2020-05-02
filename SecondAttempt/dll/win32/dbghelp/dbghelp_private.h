@@ -151,7 +151,7 @@ struct location
 {
     unsigned            kind : 8,
                         reg;
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
     unsigned long       offset;
 #else
     uintptr_t           offset;
@@ -367,7 +367,7 @@ struct module_format
     } u;
 };
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 struct symt_idx_to_ptr
 {
     struct hash_table_elt hash_elt;

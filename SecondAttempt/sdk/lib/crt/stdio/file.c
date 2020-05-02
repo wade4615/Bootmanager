@@ -546,13 +546,13 @@ static int msvcrt_flush_buffer(FILE* file)
         if(file->_flag & _IORW)
             file->_flag &= ~_IOWRT;
 
-#ifdef __REACTOS__ /* CORE-11949 */
+#ifdef __BOOTMANAGER__ /* CORE-11949 */
     file->_ptr=file->_base;
     file->_cnt=0;
 #endif
     }
 
-#ifndef __REACTOS__ /* CORE-11949 */
+#ifndef __BOOTMANAGER__ /* CORE-11949 */
     file->_ptr=file->_base;
     file->_cnt=0;
 #endif
@@ -3082,7 +3082,7 @@ size_t CDECL fwrite(const void *ptr, size_t size, size_t nmemb, FILE* file)
     _lock_file(file);
 
     while(wrcnt) {
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
         if(file->_cnt < 0) {
             WARN("negative file->_cnt value in %p\n", file);
             file->_flag |= MSVCRT__IOERR;

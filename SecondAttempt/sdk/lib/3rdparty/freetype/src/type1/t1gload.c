@@ -213,7 +213,7 @@
                           FT_Pos*  max_advance )
   {
     FT_Error       error;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
     if (!decoder)
       return FT_THROW( Out_Of_Memory );
@@ -243,7 +243,7 @@
                                            FT_RENDER_MODE_NORMAL,
                                            T1_Parse_Glyph );
     if ( error )
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     {
         free(&decoder);
         return error;
@@ -279,7 +279,7 @@
 
     psaux->t1_decoder_funcs->done( &decoder );
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     free(&decoder);
 #undef decoder
     }
@@ -296,7 +296,7 @@
                    FT_Fixed*  advances )
   {
     T1_Face        face  = (T1_Face)t1face;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
     if (!decoder)
       return FT_THROW( Out_Of_Memory );
@@ -317,7 +317,7 @@
       for ( nn = 0; nn < count; nn++ )
         advances[nn] = 0;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
       free(&decoder);
 #endif
       return FT_Err_Ok;
@@ -333,7 +333,7 @@
                                            FT_RENDER_MODE_NORMAL,
                                            T1_Parse_Glyph );
     if ( error )
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     {
         free(&decoder);
         return error;
@@ -362,7 +362,7 @@
         advances[nn] = 0;
     }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     free(&decoder);
 #undef decoder
     }
@@ -379,7 +379,7 @@
   {
     T1_GlyphSlot            glyph = (T1_GlyphSlot)t1glyph;
     FT_Error                error;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     T1_DecoderRec *decoder = malloc(sizeof(T1_DecoderRec));
     if (!decoder)
       return FT_THROW( Out_Of_Memory );
@@ -637,7 +637,7 @@
     if ( must_finish_decoder )
       decoder_funcs->done( &decoder );
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     free(&decoder);
 #undef decoder
     }

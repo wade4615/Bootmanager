@@ -27,7 +27,7 @@
  */
 #pragma once
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #error "Do not use this header, use NDK!"
 #endif
 

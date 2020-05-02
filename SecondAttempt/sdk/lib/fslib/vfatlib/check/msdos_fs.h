@@ -20,7 +20,7 @@
 #ifndef _MSDOS_FS_H
 #define _MSDOS_FS_H
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #include <stdint.h>
 #endif
 
@@ -47,7 +47,7 @@
 #define MSDOS_DOT ".          "		/* ".", padded to MSDOS_NAME chars */
 #define MSDOS_DOTDOT "..         "	/* "..", padded to MSDOS_NAME chars */
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <pshpack1.h>
 #endif
 
@@ -64,7 +64,7 @@ struct msdos_dir_entry {
     uint32_t size;		/* file size (in bytes) */
 } __attribute__ ((packed));
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <poppack.h>
 #endif
 

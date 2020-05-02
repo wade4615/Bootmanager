@@ -96,7 +96,7 @@ extern void write_proxies(const statement_list_t *stmts);
 extern void write_client(const statement_list_t *stmts);
 extern void write_server(const statement_list_t *stmts);
 extern void write_regscript(const statement_list_t *stmts);
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 extern void write_typelib_regscript(const statement_list_t *stmts);
 #endif
 extern void output_typelib_regscript( const typelib_t *typelib );

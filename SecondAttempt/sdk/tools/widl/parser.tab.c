@@ -209,7 +209,7 @@ static struct namespace global_namespace = {
 
 static struct namespace *current_namespace = &global_namespace;
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 static typelib_t *current_typelib;
 #endif
 
@@ -2608,7 +2608,7 @@ yyreduce:
 						  write_client((yyvsp[-1].stmt_list));
 						  write_server((yyvsp[-1].stmt_list));
 						  write_regscript((yyvsp[-1].stmt_list));
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 						  write_typelib_regscript((yyvsp[-1].stmt_list));
 #endif
 						  write_dlldata((yyvsp[-1].stmt_list));
@@ -2910,7 +2910,7 @@ yyreduce:
   case 55:
 #line 449 "parser.y" /* yacc.c:1646  */
     { (yyval.typelib) = make_library((yyvsp[-1].str), check_library_attrs((yyvsp[-1].str), (yyvsp[-2].attr_list)));
-/* ifdef __REACTOS__ */
+/* ifdef __BOOTMANAGER__ */
 						  if (!parse_only) start_typelib((yyval.typelib));
 /* else
 						  if (!parse_only && do_typelib) current_typelib = $$;
@@ -6093,7 +6093,7 @@ static type_t *reg_typedefs(decl_spec_t *decl_spec, declarator_list_t *decls, at
         type->attrs = attrs;
   }
 
-#ifdef __REACTOS__ /* r53187 / 5bf224e */
+#ifdef __BOOTMANAGER__ /* r53187 / 5bf224e */
   /* Append the SWITCHTYPE attribute to a non-encapsulated union if it does not already have it.  */
   if (type_get_type_detect_alias(type) == TYPE_UNION &&
       is_attr(attrs, ATTR_SWITCHTYPE) &&

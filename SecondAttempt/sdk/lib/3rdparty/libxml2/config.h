@@ -284,7 +284,7 @@
    such a type exists and the standard includes do not define it. */
 /* #undef uint32_t */
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #if defined(__MINGW32__)
 //#include <windows.h>
 #define WIN32_NO_STATUS

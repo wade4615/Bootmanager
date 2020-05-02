@@ -85,7 +85,7 @@ function(add_dependency_node _node)
     if(GENERATE_DEPENDENCY_GRAPH)
         get_target_property(_type ${_node} TYPE)
         if(_type MATCHES SHARED_LIBRARY|MODULE_LIBRARY OR ${_node} MATCHES ntoskrnl)
-            file(APPEND ${REACTOS_BINARY_DIR}/dependencies.graphml "    <node id=\"${_node}\"/>\n")
+            file(APPEND ${BOOTMANAGER_BINARY_DIR}/dependencies.graphml "    <node id=\"${_node}\"/>\n")
         endif()
      endif()
 endfunction()
@@ -94,18 +94,18 @@ function(add_dependency_edge _source _target)
     if(GENERATE_DEPENDENCY_GRAPH)
         get_target_property(_type ${_source} TYPE)
         if(_type MATCHES SHARED_LIBRARY|MODULE_LIBRARY)
-            file(APPEND ${REACTOS_BINARY_DIR}/dependencies.graphml "    <edge source=\"${_source}\" target=\"${_target}\"/>\n")
+            file(APPEND ${BOOTMANAGER_BINARY_DIR}/dependencies.graphml "    <edge source=\"${_source}\" target=\"${_target}\"/>\n")
         endif()
     endif()
 endfunction()
 
 function(add_dependency_header)
-    file(WRITE ${REACTOS_BINARY_DIR}/dependencies.graphml "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<graphml>\n  <graph id=\"ReactOS dependencies\" edgedefault=\"directed\">\n")
+    file(WRITE ${BOOTMANAGER_BINARY_DIR}/dependencies.graphml "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<graphml>\n  <graph id=\"ReactOS dependencies\" edgedefault=\"directed\">\n")
 endfunction()
 
 function(add_dependency_footer)
     add_dependency_node(ntdll)
-    file(APPEND ${REACTOS_BINARY_DIR}/dependencies.graphml "  </graph>\n</graphml>\n")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/dependencies.graphml "  </graph>\n</graphml>\n")
 endfunction()
 
 function(add_message_headers _type)
@@ -366,7 +366,7 @@ function(add_cd_file)
             dir_to_num(${_CD_DESTINATION} _num)
             foreach(item ${_CD_FILE})
                 # add it in reactos.cab
-                file(APPEND ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.dff.cmake "\"${item}\" ${_num}\n")
+                file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.dff.cmake "\"${item}\" ${_num}\n")
 
                 # manage dependency - file level
                 set_property(GLOBAL APPEND PROPERTY REACTOS_CAB_DEPENDS ${item})
@@ -441,7 +441,7 @@ function(add_cd_file)
         else()
             #add it in reactos.cab
             #dir_to_num(${_CD_DESTINATION} _num)
-            #file(APPEND ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.dff.dyn "${_CD_FILE} ${_num}\n")
+            #file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.dff.dyn "${_CD_FILE} ${_num}\n")
             #if(_CD_TARGET)
             #    #manage dependency
             #    add_dependencies(reactos_cab ${_CD_TARGET})
@@ -457,12 +457,12 @@ function(create_iso_lists)
     # begin with reactos.inf. We want this command to be always executed, so we pretend it generates another file although it will never do.
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf ${CMAKE_CURRENT_BINARY_DIR}/__some_non_existent_file
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.inf ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf
-        DEPENDS ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.inf reactos_cab_inf)
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.inf ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf
+        DEPENDS ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.inf reactos_cab_inf)
 
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/reactos.cab
-        COMMAND native-cabman -C ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.dff -RC ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf -N -P ${BOOTMANAGER_SOURCE_DIR}
+        COMMAND native-cabman -C ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.dff -RC ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf -N -P ${BOOTMANAGER_SOURCE_DIR}
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf native-cabman ${_filelist})
 
     add_custom_target(reactos_cab DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/reactos.cab)
@@ -481,35 +481,35 @@ function(create_iso_lists)
 
     get_property(_filelist GLOBAL PROPERTY BOOTCD_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${REACTOS_BINARY_DIR}/boot/bootcd.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootcd.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${REACTOS_BINARY_DIR}/boot/bootcd.$<CONFIG>.lst
-         INPUT ${REACTOS_BINARY_DIR}/boot/bootcd.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcd.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcd.cmake.lst)
 
     get_property(_filelist GLOBAL PROPERTY LIVECD_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${REACTOS_BINARY_DIR}/boot/livecd.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/livecd.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${REACTOS_BINARY_DIR}/boot/livecd.$<CONFIG>.lst
-         INPUT ${REACTOS_BINARY_DIR}/boot/livecd.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/livecd.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/livecd.cmake.lst)
 
     get_property(_filelist GLOBAL PROPERTY HYBRIDCD_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${REACTOS_BINARY_DIR}/boot/hybridcd.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/hybridcd.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${REACTOS_BINARY_DIR}/boot/hybridcd.$<CONFIG>.lst
-         INPUT ${REACTOS_BINARY_DIR}/boot/hybridcd.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/hybridcd.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/hybridcd.cmake.lst)
 
     get_property(_filelist GLOBAL PROPERTY BOOTCDREGTEST_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${REACTOS_BINARY_DIR}/boot/bootcdregtest.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootcdregtest.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${REACTOS_BINARY_DIR}/boot/bootcdregtest.$<CONFIG>.lst
-         INPUT ${REACTOS_BINARY_DIR}/boot/bootcdregtest.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcdregtest.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcdregtest.cmake.lst)
 endfunction()
 
 # Create module_clean targets
@@ -521,7 +521,7 @@ function(add_clean_target _target)
         set(_clean_command nmake /nologo clean)
     elseif(CMAKE_GENERATOR STREQUAL "Ninja")
         set(_clean_command ninja -t clean ${_target})
-        set(_clean_working_directory ${REACTOS_BINARY_DIR})
+        set(_clean_working_directory ${BOOTMANAGER_BINARY_DIR})
     endif()
     add_custom_target(${_target}_clean
         COMMAND ${_clean_command}

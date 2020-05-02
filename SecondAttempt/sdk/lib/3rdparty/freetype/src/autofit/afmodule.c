@@ -549,7 +549,7 @@
 
 #else /* !FT_DEBUG_AUTOFIT */
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
     AF_GlyphHintsRec *hints = malloc(sizeof(AF_GlyphHintsRec));
     AF_LoaderRec *loader = malloc(sizeof(AF_LoaderRec));
     if (!hints || !loader)
@@ -574,7 +574,7 @@
     af_loader_done( loader );
     af_glyph_hints_done( hints );
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 Exit:
     free(hints);
     free(loader);

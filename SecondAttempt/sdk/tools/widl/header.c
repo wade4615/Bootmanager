@@ -1205,7 +1205,7 @@ static void write_inline_wrappers(FILE *header, const type_t *iface, const type_
     if (!is_callas(func->attrs)) {
       const var_t *arg;
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
       fprintf(header, "FORCEINLINE ");
 #else
       fprintf(header, "static FORCEINLINE ");
@@ -1244,7 +1244,7 @@ static void do_write_c_method_def(FILE *header, const type_t *iface, const char 
 
   if (type_iface_get_inherit(iface))
     do_write_c_method_def(header, type_iface_get_inherit(iface), name);
-#ifdef __REACTOS__ /* r59312 / 3ab1571 */
+#ifdef __BOOTMANAGER__ /* r59312 / 3ab1571 */
   else if (type_iface_get_stmts(iface) == NULL)
   {
     fprintf(header, "#ifndef __cplusplus\n");
@@ -1804,7 +1804,7 @@ void write_header(const statement_list_t *stmts)
   fprintf(header, "#define __REQUIRED_RPCNDR_H_VERSION__ 475\n");
   fprintf(header, "#endif\n\n");
 
-  fprintf(header, "#ifdef __REACTOS__\n");
+  fprintf(header, "#ifdef __BOOTMANAGER__\n");
   fprintf(header, "#define WIN32_LEAN_AND_MEAN\n");
   fprintf(header, "#endif\n\n");
 

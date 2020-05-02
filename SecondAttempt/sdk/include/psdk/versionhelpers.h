@@ -144,7 +144,7 @@ IsActiveSessionCountLimited()
     return !(fSuiteTerminal & !fSuiteSingleUserTS);
 }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 VERSIONHELPERAPI
 IsReactOS()
 {
@@ -153,4 +153,4 @@ IsReactOS()
     GetWindowsDirectoryW(szWinDir, _countof(szWinDir));
     return (wcsstr(szWinDir, L"ReactOS") != NULL);
 }
-#endif // __REACTOS__
+#endif // __BOOTMANAGER__

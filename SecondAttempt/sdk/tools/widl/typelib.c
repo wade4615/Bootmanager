@@ -32,7 +32,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <typedefs.h>
 #else
 #include "windef.h"
@@ -48,7 +48,7 @@
 #include "typelib_struct.h"
 #include "typetree.h"
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 static typelib_t *typelib;
 #endif
 
@@ -246,7 +246,7 @@ unsigned short get_type_vt(type_t *t)
   return 0;
 }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 void start_typelib(typelib_t *typelib_type)
 {
     if (!do_typelib) return;
@@ -385,7 +385,7 @@ static void read_importlib(importlib_t *importlib)
     close(fd);
 }
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 void add_importlib(const char *name)
 #else
 void add_importlib(const char *name, typelib_t *typelib)

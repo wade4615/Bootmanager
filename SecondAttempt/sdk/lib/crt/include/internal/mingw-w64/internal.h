@@ -18,7 +18,7 @@ extern "C" {
 #include <windef.h>
 #include <winbase.h>
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include "malloc.h"
 struct _exception;
 __declspec(dllimport) void __cdecl __setusermatherr(int (__cdecl *)(struct _exception *));

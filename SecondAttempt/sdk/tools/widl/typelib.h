@@ -21,7 +21,7 @@
 #ifndef __WIDL_TYPELIB_H
 #define __WIDL_TYPELIB_H
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 extern void start_typelib(typelib_t *typelib_type);
 extern void end_typelib(void);
 extern void add_importlib(const char *name);

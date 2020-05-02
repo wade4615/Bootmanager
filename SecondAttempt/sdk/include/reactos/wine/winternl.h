@@ -21,16 +21,16 @@
 #ifndef __WINE_WINTERNL_H
 #define __WINE_WINTERNL_H
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 #include <ntdef.h>
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 #include <windef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* defined(__cplusplus) */
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 typedef enum _TIMER_TYPE {
     NotificationTimer,
     SynchronizationTimer
@@ -40,7 +40,7 @@ typedef enum _EVENT_TYPE {
   SynchronizationEvent
 } EVENT_TYPE, *PEVENT_TYPE;
 #define FSCTL_PIPE_LISTEN CTL_CODE(FILE_DEVICE_NAMED_PIPE, 2, METHOD_BUFFERED, FILE_ANY_ACCESS)
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 /**********************************************************************
  * Fundamental types and data structures
@@ -49,9 +49,9 @@ typedef enum _EVENT_TYPE {
 #ifndef WINE_NTSTATUS_DECLARED
 #define WINE_NTSTATUS_DECLARED
 typedef LONG NTSTATUS;
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 typedef NTSTATUS *PNTSTATUS;
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 #endif
 
 typedef const char *PCSZ;
@@ -2341,9 +2341,9 @@ static inline void WINAPI DbgUserBreakPoint(void) { __asm__ __volatile__("int3")
 NTSYSAPI void WINAPI DbgBreakPoint(void);
 NTSYSAPI void WINAPI DbgUserBreakPoint(void);
 #endif  /* __i386__ && __GNUC__ */
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 NTSYSAPI NTSTATUS WINAPIV DbgPrint(LPCSTR fmt, ...);
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 NTSYSAPI NTSTATUS WINAPIV DbgPrintEx(ULONG iComponentId, ULONG Level, LPCSTR fmt, ...);
 NTSYSAPI NTSTATUS  WINAPI LdrAccessResource(HMODULE,const IMAGE_RESOURCE_DATA_ENTRY*,void**,PULONG);
 NTSYSAPI NTSTATUS  WINAPI LdrAddRefDll(ULONG,HMODULE);
@@ -2877,12 +2877,12 @@ NTSYSAPI BOOLEAN   WINAPI RtlTimeToSecondsSince1980(const LARGE_INTEGER *,LPDWOR
 NTSYSAPI BOOLEAN   WINAPI RtlTryAcquireSRWLockExclusive(RTL_SRWLOCK *);
 NTSYSAPI BOOLEAN   WINAPI RtlTryAcquireSRWLockShared(RTL_SRWLOCK *);
 NTSYSAPI BOOL      WINAPI RtlTryEnterCriticalSection(RTL_CRITICAL_SECTION *);
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 ULONGLONG __fastcall RtlUlonglongByteSwap(ULONGLONG);
 #define RtlUlonglongByteSwap(_x) _byteswap_uint64((_x))
 #else
 NTSYSAPI ULONGLONG __cdecl RtlUlonglongByteSwap(ULONGLONG);
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 NTSYSAPI DWORD     WINAPI RtlUnicodeStringToAnsiSize(const UNICODE_STRING*);
 NTSYSAPI NTSTATUS  WINAPI RtlUnicodeStringToAnsiString(PANSI_STRING,PCUNICODE_STRING,BOOLEAN);
 NTSYSAPI NTSTATUS  WINAPI RtlUnicodeStringToInteger(const UNICODE_STRING *,ULONG,ULONG *);

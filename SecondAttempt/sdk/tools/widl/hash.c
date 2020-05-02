@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #include <nls.h>
 #else
 #include "windef.h"

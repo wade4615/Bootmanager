@@ -40,13 +40,13 @@ typedef xmlChar xsltLocaleChar;
  */
 #define XSLT_LOCALE_WINAPI
 
-#ifdef __REACTOS__
+#ifdef __BOOTMANAGER__
 #define WIN32_NO_STATUS
 #include <windef.h>
 #include <winbase.h>
-#else /* __REACTOS__ */
+#else /* __BOOTMANAGER__ */
 #include <windows.h>
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 #include <winnls.h>
 
 typedef LCID xsltLocale;

@@ -278,7 +278,7 @@ int CDECL _XcptFilter(NTSTATUS ex, PEXCEPTION_POINTERS ptr)
     return msvcrt_exception_filter(ptr);
 }
 
-#ifndef __REACTOS__
+#ifndef __BOOTMANAGER__
 /*********************************************************************
  *		_abnormal_termination (MSVCRT.@)
  */
@@ -287,7 +287,7 @@ int CDECL _abnormal_termination(void)
   FIXME("(void)stub\n");
   return 0;
 }
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 /******************************************************************
  *		__uncaught_exception (MSVCRT.@)

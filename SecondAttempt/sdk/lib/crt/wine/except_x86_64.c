@@ -701,7 +701,7 @@ void __cdecl MSVCRT_longjmp( struct MSVCRT___JUMP_BUFFER *jmp, int retval )
     __wine_longjmp( (__wine_jmp_buf *)jmp, retval );
 }
 
-#ifndef __REACTOS__ // different file for ntdll
+#ifndef __BOOTMANAGER__ // different file for ntdll
 /*******************************************************************
  *		_local_unwind (MSVCRT.@)
  */
@@ -709,7 +709,7 @@ void __cdecl _local_unwind( void *frame, void *target )
 {
     RtlUnwind( frame, target, NULL, 0 );
 }
-#endif /* __REACTOS__ */
+#endif /* __BOOTMANAGER__ */
 
 /*********************************************************************
  *              _fpieee_flt (MSVCRT.@)

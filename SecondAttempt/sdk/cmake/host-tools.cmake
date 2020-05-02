@@ -58,7 +58,7 @@ function(setup_host_tools)
     else()
         # Build host-tools. Changes to tool sources will rebuild targets
         # using that tool
-        set(HOST_TOOLS_DIR ${REACTOS_BINARY_DIR}/host-tools)
+        set(HOST_TOOLS_DIR ${BOOTMANAGER_BINARY_DIR}/host-tools)
         configure_host_tools(${HOST_TOOLS_DIR})
     endif()
 
