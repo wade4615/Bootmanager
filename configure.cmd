@@ -43,7 +43,7 @@ if defined ROS_ARCH (
     echo Detected RosBE for %ROS_ARCH%
     set BUILD_ENVIRONMENT=MinGW
     set ARCH=%ROS_ARCH%
-    set MINGW_TOOCHAIN_FILE=toolchain-gcc.cmake
+    set MINGW_TOOCHAIN_FILE=config/toolchain-gcc.cmake
 
 ) else if defined VCINSTALLDIR (
     REM VS command prompt does not put this in environment vars
@@ -181,7 +181,7 @@ if "%VS_SOLUTION%" == "1" (
     goto quit
 )
 
-echo Preparing reactos...
+echo Preparing BootManager...
 
 if EXIST CMakeCache.txt (
     del CMakeCache.txt /q

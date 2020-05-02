@@ -42,15 +42,15 @@ string(TOLOWER ${ARCH} ARCH)
 
 # Compile options
 if(ARCH STREQUAL "i386")
-    include(sdk/cmake/config.cmake)
+    include(config/config.cmake)
 elseif(ARCH STREQUAL "amd64")
-    include(sdk/cmake/config-amd64.cmake)
+    include(config/config-amd64.cmake)
 elseif(ARCH STREQUAL "arm")
-    include(sdk/cmake/config-arm.cmake)
+    include(config/config-arm.cmake)
 endif()
 
 # Compiler flags handling
-include(sdk/cmake/compilerflags.cmake)
+include(config/compilerflags.cmake)
 
 add_definitions(-D__BOOTMANAGER__)
 
@@ -106,11 +106,11 @@ if(NOT CMAKE_CROSSCOMPILING)
     endif()
 
     export(TARGETS ${NATIVE_TARGETS} FILE ${CMAKE_BINARY_DIR}/ImportExecutables.cmake NAMESPACE native- )
-    configure_file(sdk/cmake/host-tools.in ${CMAKE_BINARY_DIR}/TargetList.cmake)
+    configure_file(config/host-tools.in ${CMAKE_BINARY_DIR}/TargetList.cmake)
 
 else()
     # Add host tools target
-    include(sdk/cmake/host-tools.cmake)
+    include(config/host-tools.cmake)
     setup_host_tools()
 	
     # We don't need CMake importlib handling.
@@ -195,24 +195,24 @@ else()
     enable_language(RC)
 
     # Localization definitions
-    include(sdk/cmake/localization.cmake)
+    include(config/localization.cmake)
     set(I18N_DEFS "")
     # This will set I18N_DEFS for later use
     set_i18n_language(${I18N_LANG})
 
     # Compiler specific definitions and macros
     if(MSVC)
-        include(sdk/cmake/msvc.cmake)
+        include(config/msvc.cmake)
     else()
-        include(sdk/cmake/gcc.cmake)
+        include(config/gcc.cmake)
     endif()
 
     # Generic macros
-    include(sdk/cmake/CMakeMacros.cmake)
+    include(config/CMakeMacros.cmake)
 
     # IDL macros for widl/midl
     # We're using widl now for both MSVC and GCC builds
-    include(sdk/cmake/widl-support.cmake)
+    include(config/widl-support.cmake)
 
     include_directories(
         sdk/include
@@ -245,11 +245,11 @@ else()
     add_subdirectory(sdk/include/asm)
 
     if(NO_ROSSYM)
-        include(sdk/cmake/baseaddress_dwarf.cmake)
+        include(config/baseaddress_dwarf.cmake)
     elseif(MSVC)
-        include(sdk/cmake/baseaddress_msvc.cmake)
+        include(config/baseaddress_msvc.cmake)
     else()
-        include(sdk/cmake/baseaddress.cmake)
+        include(config/baseaddress.cmake)
     endif()
 
     # For MSVC builds, this puts all debug symbols file in the same directory.
