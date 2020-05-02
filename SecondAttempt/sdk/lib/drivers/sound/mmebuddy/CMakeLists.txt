@@ -3,7 +3,7 @@ add_definitions(
     -DUNICODE -D_UNICODE
     -DNDEBUG=1)
 
-include_directories(${REACTOS_SOURCE_DIR}/sdk/include/reactos/libs/sound)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/libs/sound)
 
 list(APPEND SOURCE
     capabilities.c

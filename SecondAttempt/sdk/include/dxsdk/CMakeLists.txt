@@ -1,5 +1,5 @@
 
-include_directories(${REACTOS_SOURCE_DIR}/sdk/include/psdk)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/psdk)
 
 list(APPEND SOURCE
     amstream.idl

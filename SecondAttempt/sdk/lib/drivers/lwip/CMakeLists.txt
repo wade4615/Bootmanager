@@ -1,9 +1,9 @@
 
 include_directories(
     BEFORE include
-    ${REACTOS_SOURCE_DIR}/drivers/network/tcpip/include
-    ${REACTOS_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include
-    ${REACTOS_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include/ipv4)
+    ${BOOTMANAGER_SOURCE_DIR}/drivers/network/tcpip/include
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include/ipv4)
 
 include_directories(
     src/include

@@ -1,5 +1,5 @@
 
-include_directories(${REACTOS_SOURCE_DIR}/sdk/include/reactos/wine)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/wine)
 add_definitions(-D__WINESRC__)
 
 list(APPEND SOURCE
@@ -9,7 +9,7 @@ list(APPEND SOURCE
     isfinite.c
     isnan.c
     loader.c
-    ${REACTOS_SOURCE_DIR}/sdk/lib/crt/string/wctype.c
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/crt/string/wctype.c
     register.c
 #    string.c implements _stricmp, already shipped with crt
 )

@@ -28,7 +28,7 @@ if(CMAKE_CROSSCOMPILING)
         -Dstrtoll=_strtoi64
         -Dopen=_open
         -Dclose=_close)
-    include_directories(${REACTOS_SOURCE_DIR}/sdk/include/reactos/wine)
+    include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/wine)
 endif()
 
 list(APPEND SOURCE

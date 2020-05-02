@@ -1,5 +1,5 @@
 
-include_directories(${REACTOS_SOURCE_DIR}/sdk/include/reactos/subsys)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/subsys)
 
 list(APPEND SOURCE
     compses.c

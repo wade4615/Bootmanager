@@ -2,8 +2,8 @@
 set_cpp(WITH_EXCEPTIONS)
 
 include_directories(
-    ${REACTOS_SOURCE_DIR}/sdk/lib/crt/include
-    ${REACTOS_SOURCE_DIR}/sdk/include/c++)
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/crt/include
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/include/c++)
 
 list(APPEND SOURCE
     ehvec.cpp

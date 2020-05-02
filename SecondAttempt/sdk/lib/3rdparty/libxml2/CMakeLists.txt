@@ -1,8 +1,8 @@
 
 include_directories(
     include
-    ${REACTOS_SOURCE_DIR}/sdk/lib/3rdparty/libwin-iconv
-    ${REACTOS_SOURCE_DIR}/sdk/include/reactos/libs/zlib)
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/3rdparty/libwin-iconv
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/libs/zlib)
 
 add_definitions(
     -D__MINGW32__

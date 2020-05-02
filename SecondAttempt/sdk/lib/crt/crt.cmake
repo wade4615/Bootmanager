@@ -591,7 +591,7 @@ if(NOT ARCH STREQUAL "i386")
 endif()
 
 # includes for wine code
-include_directories(${REACTOS_SOURCE_DIR}/sdk/include/reactos/wine)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/wine)
 
 set_source_files_properties(${CRT_ASM_SOURCE} PROPERTIES COMPILE_DEFINITIONS "__MINGW_IMPORT=extern;USE_MSVCRT_PREFIX;_MSVCRT_LIB_;_MSVCRT_;_MT;CRTDLL")
 add_asm_files(crt_asm ${CRT_ASM_SOURCE})

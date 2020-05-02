@@ -1,6 +1,6 @@
 add_definitions(-DUNICODE -D_UNICODE -DRDBSS_TRACKER)
 
-include_directories(${REACTOS_SOURCE_DIR}/drivers/filesystems/mup)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/drivers/filesystems/mup)
 
 list(APPEND SOURCE
     rxce.c)

@@ -1,5 +1,5 @@
 
-include_directories(${REACTOS_SOURCE_DIR}/sdk/tools)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/tools)
 add_library(rsym_common STATIC rsym_common.c)
 target_link_libraries(rsym_common PRIVATE host_includes)
 

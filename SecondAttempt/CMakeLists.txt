@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.2.1)
 cmake_policy(VERSION 3.2.1)
 
@@ -16,7 +15,7 @@ if(POLICY CMP0065)
     cmake_policy(SET CMP0065 NEW)
 endif()
 
-project(REACTOS)
+project(BOOTMANAGER)
 
 # Versioning
 include(sdk/include/reactos/version.cmake)
@@ -56,12 +55,12 @@ include(sdk/cmake/compilerflags.cmake)
 add_definitions(-D__REACTOS__)
 
 # Double escape, since CMake unescapes before putting it on the command-line, where it's unescaped again by GCC/CL.
-add_definitions(-DREACTOS_SOURCE_DIR="${REACTOS_SOURCE_DIR}")
+add_definitions(-DREACTOS_SOURCE_DIR="${BOOTMANAGER_SOURCE_DIR}")
 add_definitions(-DREACTOS_BINARY_DIR="${REACTOS_BINARY_DIR}")
 
 # There doesn't seem to be a standard for __FILE__ being relative or absolute, so detect it at runtime.
-file(RELATIVE_PATH _PATH_PREFIX ${REACTOS_BINARY_DIR} ${REACTOS_SOURCE_DIR})
-add_compile_flags(-D__RELFILE__="&__FILE__[__FILE__[0] == '.' ? sizeof \\\"${_PATH_PREFIX}\\\" - 1 : sizeof REACTOS_SOURCE_DIR]")
+file(RELATIVE_PATH _PATH_PREFIX ${REACTOS_BINARY_DIR} ${BOOTMANAGER_SOURCE_DIR})
+add_compile_flags(-D__RELFILE__="&__FILE__[__FILE__[0] == '.' ? sizeof \\\"${_PATH_PREFIX}\\\" - 1 : sizeof BOOTMANAGER_SOURCE_DIR]")
 
 if(MSVC_IDE)
     add_compile_flags("/MP")
@@ -108,4 +107,151 @@ else()
     # Add host tools target
     include(sdk/cmake/host-tools.cmake)
     setup_host_tools()
+	
+    # We don't need CMake importlib handling.
+    unset(CMAKE_IMPORT_LIBRARY_SUFFIX)
+
+    # Print build type
+    message("-- Build Type: ${CMAKE_BUILD_TYPE}")
+
+    # adjust the default behaviour of the FIND_XXX() commands:
+    # search headers and libraries in the target environment, search
+    # programs in the host environment
+    set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)
+    set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER)
+
+    #useful stuff!
+    include(CMakeParseArguments)
+
+    if(DBG)
+        add_definitions(-DDBG=1 -D_SEH_ENABLE_TRACE)
+    else()
+        add_definitions(-DDBG=0)
+    endif()
+
+    if(KDBG)
+        add_definitions(-DKDBG)
+    endif()
+
+    if(_WINKD_)
+        add_definitions(-D_WINKD_)
+    endif()
+
+    if(CMAKE_VERSION MATCHES "ReactOS" AND CMAKE_VERSION VERSION_LESS 3.3.0)
+        set(PCH 1 CACHE BOOL "Whether to use precompiled headers")
+    else()
+        set(PCH 0 CACHE BOOL "Whether to use precompiled headers")
+    endif()
+
+    # Version Options
+    add_definitions(-DWINVER=0x502
+                    -D_WIN32_IE=0x600
+                    -D_WIN32_WINNT=0x502
+                    -D_WIN32_WINDOWS=0x502
+                    -D_SETUPAPI_VER=0x502
+                    -DMINGW_HAS_SECURE_API=1)
+
+    # Arch Options
+    if(ARCH STREQUAL "i386")
+        if(NOT USE_CLANG_CL)
+            add_definitions(-D_M_IX86)
+        endif()
+        add_definitions(-D_X86_ -D__i386__ -Di386)
+        if(SARCH STREQUAL "xbox")
+            add_definitions(-DSARCH_XBOX)
+        elseif(SARCH STREQUAL "pc98")
+            add_definitions(-DSARCH_PC98)
+        endif()
+    elseif(ARCH STREQUAL "amd64")
+        add_definitions(-D_M_AMD64 -D_AMD64_ -D__x86_64__ -D_WIN64)
+    elseif(ARCH STREQUAL "arm")
+        # _M_ARM is already defined by toolchain
+        add_definitions(-D_ARM_ -D__arm__ -DWIN32)
+        if(SARCH STREQUAL "omap-zoom2")
+            add_definitions(-D_ZOOM2_)
+        endif()
+    endif()
+
+    # Other
+    add_definitions(-D_NEW_DELETE_OPERATORS_)
+    if(ARCH STREQUAL "i386")
+        add_definitions(-DUSE_COMPILER_EXCEPTIONS -D_USE_32BIT_TIME_T)
+    elseif(ARCH STREQUAL "amd64")
+        add_definitions(-DUSE_COMPILER_EXCEPTIONS -DNO_UNDERSCORE_PREFIX)
+    elseif(ARCH STREQUAL "arm")
+        add_definitions(-DUSE_COMPILER_EXCEPTIONS -DNO_UNDERSCORE_PREFIX)
+    endif()
+
+    # Activate support for assembly source files
+    enable_language(ASM)
+
+    # Activate language support for resource files
+    enable_language(RC)
+
+    # Localization definitions
+    include(sdk/cmake/localization.cmake)
+    set(I18N_DEFS "")
+    # This will set I18N_DEFS for later use
+    set_i18n_language(${I18N_LANG})
+
+    # Compiler specific definitions and macros
+    if(MSVC)
+        include(sdk/cmake/msvc.cmake)
+    else()
+        include(sdk/cmake/gcc.cmake)
+    endif()
+
+    # Generic macros
+    include(sdk/cmake/CMakeMacros.cmake)
+
+    # IDL macros for widl/midl
+    # We're using widl now for both MSVC and GCC builds
+    include(sdk/cmake/widl-support.cmake)
+
+    include_directories(
+        sdk/include
+        sdk/include/psdk
+        sdk/include/dxsdk
+        ${REACTOS_BINARY_DIR}/sdk/include
+        ${REACTOS_BINARY_DIR}/sdk/include/psdk
+        ${REACTOS_BINARY_DIR}/sdk/include/dxsdk
+        ${REACTOS_BINARY_DIR}/sdk/include/ddk
+        ${REACTOS_BINARY_DIR}/sdk/include/reactos
+        ${REACTOS_BINARY_DIR}/sdk/include/reactos/mc
+        sdk/include/crt
+        sdk/include/ddk
+        sdk/include/ndk
+        sdk/include/reactos
+        sdk/include/reactos/libs)
+
+    if(ARCH STREQUAL "arm")
+        include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/arm)
+    endif()
+
+    add_dependency_header()
+
+    add_subdirectory(sdk/include/ndk/tests)
+    add_subdirectory(sdk/include/xdk)
+    add_subdirectory(sdk/include/psdk)
+    add_subdirectory(sdk/include/dxsdk)
+    add_subdirectory(sdk/include/reactos/wine)
+    add_subdirectory(sdk/include/reactos/mc)
+    add_subdirectory(sdk/include/asm)
+
+    if(NO_ROSSYM)
+        include(sdk/cmake/baseaddress_dwarf.cmake)
+    elseif(MSVC)
+        include(sdk/cmake/baseaddress_msvc.cmake)
+    else()
+        include(sdk/cmake/baseaddress.cmake)
+    endif()
+
+    # For MSVC builds, this puts all debug symbols file in the same directory.
+    if (MSVC)
+        set(CMAKE_PDB_OUTPUT_DIRECTORY "${REACTOS_BINARY_DIR}/msvc_pdb")
+    elseif(SEPARATE_DBG)
+        set(CMAKE_PDB_OUTPUT_DIRECTORY "${REACTOS_BINARY_DIR}/symbols")
+    endif()
+
 endif()

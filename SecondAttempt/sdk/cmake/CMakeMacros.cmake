@@ -70,8 +70,8 @@ macro(set_cpp)
     if(__cppopts_WITH_STL)
         set(CPP_USE_STL 1)
         if(MSVC)
-            add_definitions(-DNATIVE_CPP_INCLUDE=${REACTOS_SOURCE_DIR}/sdk/include/c++)
-            include_directories(${REACTOS_SOURCE_DIR}/sdk/include/c++/stlport)
+            add_definitions(-DNATIVE_CPP_INCLUDE=${BOOTMANAGER_SOURCE_DIR}/sdk/include/c++)
+            include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/c++/stlport)
         else()
             replace_compile_flags("-nostdinc" " ")
             add_definitions(-DPAL_STDCPP_COMPAT)
@@ -462,7 +462,7 @@ function(create_iso_lists)
 
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/reactos.cab
-        COMMAND native-cabman -C ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.dff -RC ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf -N -P ${REACTOS_SOURCE_DIR}
+        COMMAND native-cabman -C ${REACTOS_BINARY_DIR}/boot/bootdata/packages/reactos.dff -RC ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf -N -P ${BOOTMANAGER_SOURCE_DIR}
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf native-cabman ${_filelist})
 
     add_custom_target(reactos_cab DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/reactos.cab)

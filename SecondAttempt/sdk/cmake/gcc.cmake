@@ -76,11 +76,11 @@ endif()
 add_compile_flags_language("-fno-rtti -fno-exceptions" "CXX")
 
 #bug
-#file(TO_NATIVE_PATH ${REACTOS_SOURCE_DIR} REACTOS_SOURCE_DIR_NATIVE)
+#file(TO_NATIVE_PATH ${BOOTMANAGER_SOURCE_DIR} REACTOS_SOURCE_DIR_NATIVE)
 #workaround
-set(REACTOS_SOURCE_DIR_NATIVE ${REACTOS_SOURCE_DIR})
+set(REACTOS_SOURCE_DIR_NATIVE ${BOOTMANAGER_SOURCE_DIR})
  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
-string(REPLACE "/" "\\" REACTOS_SOURCE_DIR_NATIVE ${REACTOS_SOURCE_DIR})
+string(REPLACE "/" "\\" REACTOS_SOURCE_DIR_NATIVE ${BOOTMANAGER_SOURCE_DIR})
 endif()
 
 if((NOT CMAKE_C_COMPILER_ID STREQUAL "Clang") AND (NOT SEPARATE_DBG))
@@ -238,16 +238,16 @@ else()
 
     set(CMAKE_C_LINK_EXECUTABLE
         "<CMAKE_C_COMPILER> ${CMAKE_C_FLAGS} <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>"
-        "${RSYM} -s ${REACTOS_SOURCE_DIR} <TARGET> <TARGET>")
+        "${RSYM} -s ${BOOTMANAGER_SOURCE_DIR} <TARGET> <TARGET>")
     set(CMAKE_CXX_LINK_EXECUTABLE
         "<CMAKE_CXX_COMPILER> ${CMAKE_CXX_FLAGS} <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>"
-        "${RSYM} -s ${REACTOS_SOURCE_DIR} <TARGET> <TARGET>")
+        "${RSYM} -s ${BOOTMANAGER_SOURCE_DIR} <TARGET> <TARGET>")
     set(CMAKE_C_CREATE_SHARED_LIBRARY
         "<CMAKE_C_COMPILER> ${CMAKE_C_FLAGS} <CMAKE_SHARED_LIBRARY_C_FLAGS> <LINK_FLAGS> <CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
-        "${RSYM} -s ${REACTOS_SOURCE_DIR} <TARGET> <TARGET>")
+        "${RSYM} -s ${BOOTMANAGER_SOURCE_DIR} <TARGET> <TARGET>")
     set(CMAKE_CXX_CREATE_SHARED_LIBRARY
         "<CMAKE_CXX_COMPILER> ${CMAKE_CXX_FLAGS} <CMAKE_SHARED_LIBRARY_CXX_FLAGS> <LINK_FLAGS> <CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
-        "${RSYM} -s ${REACTOS_SOURCE_DIR} <TARGET> <TARGET>")
+        "${RSYM} -s ${BOOTMANAGER_SOURCE_DIR} <TARGET> <TARGET>")
     set(CMAKE_RC_CREATE_SHARED_LIBRARY
         "<CMAKE_C_COMPILER> ${CMAKE_C_FLAGS} <CMAKE_SHARED_LIBRARY_C_FLAGS> <LINK_FLAGS> <CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>")
 endif()
@@ -271,14 +271,14 @@ if(CMAKE_VERSION VERSION_LESS 3.4.0)
     set(CMAKE_C_COMPILE_OBJECT "${CCACHE} <CMAKE_C_COMPILER> <DEFINES> ${_compress_debug_sections_flag} <FLAGS> -o <OBJECT> -c <SOURCE>")
     # FIXME: Once the GCC toolchain bugs are fixed, add _compress_debug_sections_flag to CXX too
     set(CMAKE_CXX_COMPILE_OBJECT "${CCACHE} <CMAKE_CXX_COMPILER> <DEFINES> <FLAGS> -o <OBJECT> -c <SOURCE>")
-    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${REACTOS_SOURCE_DIR}/sdk/include/asm -I${REACTOS_BINARY_DIR}/sdk/include/asm <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
+    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${BOOTMANAGER_SOURCE_DIR}/sdk/include/asm -I${REACTOS_BINARY_DIR}/sdk/include/asm <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
 
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff <FLAGS> -DRC_INVOKED -D__WIN32__=1 -D__FLAT__=1 ${I18N_DEFS} <DEFINES> <SOURCE> <OBJECT>")
 else()
     set(CMAKE_C_COMPILE_OBJECT "${CCACHE} <CMAKE_C_COMPILER> <DEFINES> ${_compress_debug_sections_flag} <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
     # FIXME: Once the GCC toolchain bugs are fixed, add _compress_debug_sections_flag to CXX too
     set(CMAKE_CXX_COMPILE_OBJECT "${CCACHE} <CMAKE_CXX_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
-    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${REACTOS_SOURCE_DIR}/sdk/include/asm -I${REACTOS_BINARY_DIR}/sdk/include/asm <INCLUDES> <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
+    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${BOOTMANAGER_SOURCE_DIR}/sdk/include/asm -I${REACTOS_BINARY_DIR}/sdk/include/asm <INCLUDES> <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
 
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff <INCLUDES> <FLAGS> -DRC_INVOKED -D__WIN32__=1 -D__FLAT__=1 ${I18N_DEFS} <DEFINES> <SOURCE> <OBJECT>")
 endif()
@@ -325,7 +325,7 @@ function(set_module_type_toolchain MODULE TYPE)
             add_target_link_flags(${MODULE} "-Wl,--wdmdriver")
         endif()
         #Disabled due to LD bug: ROSBE-154
-        #add_linker_script(${MODULE} ${REACTOS_SOURCE_DIR}/sdk/cmake/init-section.lds)
+        #add_linker_script(${MODULE} ${BOOTMANAGER_SOURCE_DIR}/sdk/cmake/init-section.lds)
     endif()
 
     if(STACK_PROTECTOR)
@@ -463,7 +463,7 @@ function(CreateBootSectorTarget _target_name _asm_file _binary_file _base_addres
 
     add_custom_command(
         OUTPUT ${_object_file}
-        COMMAND ${CMAKE_ASM_COMPILER} -x assembler-with-cpp -o ${_object_file} -I${REACTOS_SOURCE_DIR}/sdk/include/asm -I${REACTOS_BINARY_DIR}/sdk/include/asm ${_includes} ${_defines} -D__ASM__ -c ${_asm_file}
+        COMMAND ${CMAKE_ASM_COMPILER} -x assembler-with-cpp -o ${_object_file} -I${BOOTMANAGER_SOURCE_DIR}/sdk/include/asm -I${REACTOS_BINARY_DIR}/sdk/include/asm ${_includes} ${_defines} -D__ASM__ -c ${_asm_file}
         DEPENDS ${_asm_file})
 
     add_custom_command(

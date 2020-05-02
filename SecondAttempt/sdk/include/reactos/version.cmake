@@ -24,12 +24,12 @@ endif()
 set(COMMIT_HASH "unknown-hash")
 set(REVISION "unknown-revision")
 
-if(EXISTS "${REACTOS_SOURCE_DIR}/.git")
+if(EXISTS "${BOOTMANAGER_SOURCE_DIR}/.git")
     find_package(Git)
     if(GIT_FOUND)
         execute_process(
             COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD
-            WORKING_DIRECTORY ${REACTOS_SOURCE_DIR}
+            WORKING_DIRECTORY ${BOOTMANAGER_SOURCE_DIR}
             OUTPUT_VARIABLE GIT_COMMIT_HASH
             RESULT_VARIABLE GIT_CALL_RESULT
             OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -40,7 +40,7 @@ if(EXISTS "${REACTOS_SOURCE_DIR}/.git")
 
         execute_process(
             COMMAND "${GIT_EXECUTABLE}" describe --abbrev=7 --long --always
-            WORKING_DIRECTORY ${REACTOS_SOURCE_DIR}
+            WORKING_DIRECTORY ${BOOTMANAGER_SOURCE_DIR}
             OUTPUT_VARIABLE GIT_DESCRIBE_REVISION
             RESULT_VARIABLE GIT_CALL_RESULT
             OUTPUT_STRIP_TRAILING_WHITESPACE

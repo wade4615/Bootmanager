@@ -25,8 +25,8 @@ list(APPEND HEADERS
     apphelp.h
     sdbpapi.h
     sdbstringtable.h
-    ${REACTOS_SOURCE_DIR}/sdk/include/reactos/appcompat/sdbtagid.h
-    ${REACTOS_SOURCE_DIR}/sdk/include/reactos/appcompat/sdbtypes.h
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/appcompat/sdbtagid.h
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/appcompat/sdbtypes.h
     sdbwrite.h
     shimeng.h)
 

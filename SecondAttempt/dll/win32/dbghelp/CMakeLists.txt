@@ -8,8 +8,8 @@ if(NOT CMAKE_CROSSCOMPILING)
     add_definitions(-DDBGHELP_STATIC_LIB)
 
     include_directories(
-        ${REACTOS_SOURCE_DIR}/tools
-        ${REACTOS_SOURCE_DIR}/sdk/include/reactos/libs/zlib)
+        ${BOOTMANAGER_SOURCE_DIR}/tools
+        ${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/libs/zlib)
 
     list(APPEND SOURCE
         compat.c
@@ -41,8 +41,8 @@ else()
     endif()
 
     include_directories(
-        BEFORE ${REACTOS_SOURCE_DIR}/sdk/include/reactos/wine
-        ${REACTOS_SOURCE_DIR}/sdk/include/reactos/libs/zlib)
+        BEFORE ${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/wine
+        ${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/libs/zlib)
 
     spec2def(dbghelp.dll dbghelp.spec ADD_IMPORTLIB)
 

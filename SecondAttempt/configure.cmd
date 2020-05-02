@@ -19,10 +19,10 @@ if /I "%1" == "/?" (
 )
 
 REM Get the source root directory
-set REACTOS_SOURCE_DIR=%~dp0
+set BOOTMANAGER_SOURCE_DIR=%~dp0
 
 REM Ensure there's no spaces in the source path
-echo %REACTOS_SOURCE_DIR%| find " " > NUL
+echo %BOOTMANAGER_SOURCE_DIR%| find " " > NUL
 if %ERRORLEVEL% == 0 (
     echo. && echo   Your source path contains at least one space.
     echo   This will cause problems with building.
@@ -156,7 +156,7 @@ if "%VS_SOLUTION%" == "1" (
     set REACTOS_OUTPUT_PATH=%REACTOS_OUTPUT_PATH%-sln
 )
 
-if "%REACTOS_SOURCE_DIR%" == "%CD%\" (
+if "%BOOTMANAGER_SOURCE_DIR%" == "%CD%\" (
     set CD_SAME_AS_SOURCE=1
     echo Creating directories in %REACTOS_OUTPUT_PATH%
 
@@ -181,7 +181,7 @@ if "%VS_SOLUTION%" == "1" (
     goto quit
 )
 
-echo Preparing reactos...
+echo Preparing BootManager...
 
 if EXIST CMakeCache.txt (
     del CMakeCache.txt /q
@@ -189,11 +189,11 @@ if EXIST CMakeCache.txt (
 
 
 if "%BUILD_ENVIRONMENT%" == "MinGW" (
-    cmake -G %CMAKE_GENERATOR% -DENABLE_CCACHE:BOOL=0 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=%MINGW_TOOCHAIN_FILE% -DARCH:STRING=%ARCH% %BUILD_TOOLS_FLAG% %* "%REACTOS_SOURCE_DIR%"
+    cmake -G %CMAKE_GENERATOR% -DENABLE_CCACHE:BOOL=0 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=%MINGW_TOOCHAIN_FILE% -DARCH:STRING=%ARCH% %BUILD_TOOLS_FLAG% %* "%BOOTMANAGER_SOURCE_DIR%"
 ) else if %USE_CLANG_CL% == 1 (
-    cmake -G %CMAKE_GENERATOR% -DCMAKE_TOOLCHAIN_FILE:FILEPATH=toolchain-msvc.cmake -DARCH:STRING=%ARCH% %BUILD_TOOLS_FLAG% -DUSE_CLANG_CL:BOOL=1 %* "%REACTOS_SOURCE_DIR%"
+    cmake -G %CMAKE_GENERATOR% -DCMAKE_TOOLCHAIN_FILE:FILEPATH=toolchain-msvc.cmake -DARCH:STRING=%ARCH% %BUILD_TOOLS_FLAG% -DUSE_CLANG_CL:BOOL=1 %* "%BOOTMANAGER_SOURCE_DIR%"
 ) else (
-    cmake -G %CMAKE_GENERATOR% %CMAKE_ARCH% -DCMAKE_TOOLCHAIN_FILE:FILEPATH=toolchain-msvc.cmake -DARCH:STRING=%ARCH% %BUILD_TOOLS_FLAG% %* "%REACTOS_SOURCE_DIR%"
+    cmake -G %CMAKE_GENERATOR% %CMAKE_ARCH% -DCMAKE_TOOLCHAIN_FILE:FILEPATH=toolchain-msvc.cmake -DARCH:STRING=%ARCH% %BUILD_TOOLS_FLAG% %* "%BOOTMANAGER_SOURCE_DIR%"
 )
 
 if %ERRORLEVEL% NEQ 0 (

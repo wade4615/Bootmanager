@@ -12,7 +12,7 @@ function(configure_host_tools HOST_TOOLS_DIR)
             -G "${CMAKE_GENERATOR}"
             -DARCH:STRING=${ARCH}
             ${USE_CLANG_CL_ARG}
-            ${REACTOS_SOURCE_DIR}
+            ${BOOTMANAGER_SOURCE_DIR}
         WORKING_DIRECTORY ${HOST_TOOLS_DIR}
         RESULT_VARIABLE _host_config_result
         OUTPUT_VARIABLE _host_config_log
@@ -50,7 +50,7 @@ function(setup_host_tools)
         # as only one target architecture is available at a time
         find_path(HOST_TOOLS_DIR
             NAMES ImportExecutables.cmake
-            HINTS ${WITH_HOST_TOOLS} ${REACTOS_SOURCE_DIR}/${WITH_HOST_TOOLS}
+            HINTS ${WITH_HOST_TOOLS} ${BOOTMANAGER_SOURCE_DIR}/${WITH_HOST_TOOLS}
             NO_CMAKE_PATH
             NO_CMAKE_ENVIRONMENT_PATH)
         message(STATUS "Using prebuilt host tools: ${HOST_TOOLS_DIR}")

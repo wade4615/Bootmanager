@@ -1,6 +1,6 @@
 
 include_directories(
-    ${REACTOS_SOURCE_DIR}/sdk/lib/dmilib)
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/dmilib)
 
 list(APPEND SOURCE
     udmihelp.c

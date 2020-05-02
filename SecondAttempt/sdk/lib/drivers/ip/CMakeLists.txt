@@ -2,9 +2,9 @@
 add_definitions(-D__NTDRIVER__)
 
 include_directories(
-    BEFORE ${REACTOS_SOURCE_DIR}/drivers/network/tcpip/include
-    ${REACTOS_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include
-    ${REACTOS_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include/ipv4)
+    BEFORE ${BOOTMANAGER_SOURCE_DIR}/drivers/network/tcpip/include
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include
+    ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/drivers/lwip/src/include/ipv4)
 
 if(ARCH STREQUAL "i386")
     add_asm_files(ip_asm network/i386/checksum.S)

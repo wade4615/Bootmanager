@@ -11,6 +11,6 @@ list(APPEND SOURCE
     stat.c
     util.c)
 
-include_directories(${REACTOS_SOURCE_DIR}/sdk/tools/rsym)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/tools/rsym)
 add_host_tool(log2lines ${SOURCE})
 target_link_libraries(log2lines PRIVATE host_includes rsym_common)
