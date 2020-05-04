@@ -1,5 +1,5 @@
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/fast486)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/fast486)
 
 list(APPEND SOURCE
     debug.c

@@ -12,7 +12,7 @@ add_definitions(
     -D_DLL -D__USE_CRTIMP
     -D_CRT_NO_POSIX_ERROR_CODES)
 
-include_directories(BEFORE ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/libmpg123)
+include_directories(BEFORE ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/libmpg123)
 
 list(APPEND SOURCE
     compat/compat.c

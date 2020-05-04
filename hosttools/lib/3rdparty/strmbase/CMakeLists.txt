@@ -2,7 +2,7 @@
 remove_definitions(-D_WIN32_WINNT=0x502 -DWINVER=0x502)
 add_definitions(-D_WIN32_WINNT=0x600 -DWINVER=0x600)
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/wine)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/wine)
 add_definitions(-D__WINESRC__)
 
 list(APPEND SOURCE

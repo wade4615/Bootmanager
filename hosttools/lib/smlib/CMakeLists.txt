@@ -1,5 +1,5 @@
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/subsys)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/subsys)
 
 list(APPEND SOURCE
     compses.c

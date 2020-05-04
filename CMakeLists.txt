@@ -18,7 +18,7 @@ endif()
 project(BOOTMANAGER)
 
 # Versioning
-include(hosttools/include/reactos/version.cmake)
+include(hosttools/include/bootmanager/version.cmake)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
@@ -222,16 +222,16 @@ else()
         ${BOOTMANAGER_BINARY_DIR}/hosttools/include/psdk
         ${BOOTMANAGER_BINARY_DIR}/hosttools/include/dxsdk
         ${BOOTMANAGER_BINARY_DIR}/hosttools/include/ddk
-        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/reactos
-        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/reactos/mc
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/bootmanager
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/bootmanager/mc
         hosttools/include/crt
         hosttools/include/ddk
         hosttools/include/ndk
-        hosttools/include/reactos
-        hosttools/include/reactos/libs)
+        hosttools/include/bootmanager
+        hosttools/include/bootmanager/libs)
 
     if(ARCH STREQUAL "arm")
-        include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/arm)
+        include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/arm)
     endif()
 
     add_dependency_header()
@@ -240,8 +240,8 @@ else()
     add_subdirectory(hosttools/include/xdk)
     add_subdirectory(hosttools/include/psdk)
     add_subdirectory(hosttools/include/dxsdk)
-    add_subdirectory(hosttools/include/reactos/wine)
-    add_subdirectory(hosttools/include/reactos/mc)
+    add_subdirectory(hosttools/include/bootmanager/wine)
+    add_subdirectory(hosttools/include/bootmanager/mc)
     add_subdirectory(hosttools/include/asm)
 
     if(NO_ROSSYM)

@@ -5,7 +5,7 @@ add_definitions(
 
 include_directories(
     ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/drivers/sound/soundblaster
-    ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/sound)
+    ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/sound)
 
 add_library(uartmidi midiuart.c)
 add_dependencies(uartmidi bugcodes xdk)

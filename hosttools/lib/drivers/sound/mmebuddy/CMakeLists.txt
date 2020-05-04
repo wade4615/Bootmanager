@@ -3,7 +3,7 @@ add_definitions(
     -DUNICODE -D_UNICODE
     -DNDEBUG=1)
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/sound)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/sound)
 
 list(APPEND SOURCE
     capabilities.c

@@ -1,5 +1,5 @@
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/wine)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/wine)
 add_definitions(-D__WINESRC__)
 
 list(APPEND SOURCE

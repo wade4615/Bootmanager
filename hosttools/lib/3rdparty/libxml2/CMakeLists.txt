@@ -2,7 +2,7 @@
 include_directories(
     include
     ${BOOTMANAGER_SOURCE_DIR}/sdk/lib/3rdparty/libwin-iconv
-    ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/zlib)
+    ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/zlib)
 
 add_definitions(
     -D__MINGW32__

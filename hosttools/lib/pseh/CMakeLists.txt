@@ -8,7 +8,7 @@ endif()
 if(NOT MSVC)
 
     if(USE_PSEH3)
-        include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/pseh)
+        include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/pseh)
         list(APPEND SOURCE
             i386/pseh3.c
             i386/pseh3_i386.S)

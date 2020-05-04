@@ -3,7 +3,7 @@ add_definitions(
     -D__NTDRIVER__
     -DKERNEL)
 
-include_directories(BEFORE ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs/sound)
+include_directories(BEFORE ${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/libs/sound)
 
 list(APPEND SOURCE
     dsp_io.c

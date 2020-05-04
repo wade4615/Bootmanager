@@ -51,5 +51,5 @@ if(EXISTS "${BOOTMANAGER_SOURCE_DIR}/.git")
     endif()
 endif()
 
-configure_file(hosttools/include/reactos/version.h.cmake ${BOOTMANAGER_BINARY_DIR}/hosttools/include/reactos/version.h)
-configure_file(hosttools/include/reactos/buildno.h.cmake ${BOOTMANAGER_BINARY_DIR}/hosttools/include/reactos/buildno.h)
+configure_file(hosttools/include/bootmanager/version.h.cmake ${BOOTMANAGER_BINARY_DIR}/hosttools/include/bootmanager/version.h)
+configure_file(hosttools/include/bootmanager/buildno.h.cmake ${BOOTMANAGER_BINARY_DIR}/hosttools/include/bootmanager/buildno.h)

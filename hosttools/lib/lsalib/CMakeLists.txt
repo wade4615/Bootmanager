@@ -1,5 +1,5 @@
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/subsys)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/bootmanager/subsys)
 
 add_library(lsalib lsa.c)
 add_dependencies(lsalib xdk)
