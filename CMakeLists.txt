@@ -216,17 +216,17 @@ else()
 
     include_directories(
         hosttools/include
-        hosttools/include/psdk
-        hosttools/include/dxsdk
+#        hosttools/include/psdk
+#        hosttools/include/dxsdk
         ${BOOTMANAGER_BINARY_DIR}/hosttools/include
-        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/psdk
-        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/dxsdk
-        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/ddk
+#        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/psdk
+#        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/dxsdk
+#        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/ddk
         ${BOOTMANAGER_BINARY_DIR}/hosttools/include/bootmanager
         ${BOOTMANAGER_BINARY_DIR}/hosttools/include/bootmanager/mc
-        hosttools/include/crt
-        hosttools/include/ddk
-        hosttools/include/ndk
+#        hosttools/include/crt
+#        hosttools/include/ddk
+#        hosttools/include/ndk
         hosttools/include/bootmanager
         hosttools/include/bootmanager/libs)
 
@@ -236,13 +236,13 @@ else()
 
     add_dependency_header()
 
-    add_subdirectory(hosttools/include/ndk/tests)
-    add_subdirectory(hosttools/include/xdk)
-    add_subdirectory(hosttools/include/psdk)
-    add_subdirectory(hosttools/include/dxsdk)
+#    add_subdirectory(hosttools/include/ndk/tests)
+#    add_subdirectory(hosttools/include/xdk)
+#    add_subdirectory(hosttools/include/psdk)
+#    add_subdirectory(hosttools/include/dxsdk)
     add_subdirectory(hosttools/include/bootmanager/wine)
     add_subdirectory(hosttools/include/bootmanager/mc)
-    add_subdirectory(hosttools/include/asm)
+#    add_subdirectory(hosttools/include/asm)
 
     if(NO_ROSSYM)
         include(config/baseaddress_dwarf.cmake)
