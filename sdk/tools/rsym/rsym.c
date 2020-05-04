@@ -20,7 +20,7 @@
  * non-zero is failure.
  */
 
-#include "../../dll/win32/dbghelp/compat.h"
+#include "../../src/dll/win32/dbghelp/compat.h"
 
 #include <stdio.h>
 #include <string.h>

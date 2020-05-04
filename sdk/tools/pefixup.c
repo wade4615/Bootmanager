@@ -19,7 +19,7 @@
 // host_includes
 #include <typedefs.h>
 #include <pecoff.h>
-#include "../../dll/win32/dbghelp/compat.h"
+#include "../../src/dll/win32/dbghelp/compat.h"
 
 static const char* g_ApplicationName;
 static const char* g_Target;
