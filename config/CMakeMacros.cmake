@@ -366,7 +366,7 @@ function(add_cd_file)
             dir_to_num(${_CD_DESTINATION} _num)
             foreach(item ${_CD_FILE})
                 # add it in reactos.cab
-                file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.dff.cmake "\"${item}\" ${_num}\n")
+                file(APPEND ${BOOTMANAGER_BINARY_DIR}/src/bootdata/packages/reactos.dff.cmake "\"${item}\" ${_num}\n")
 
                 # manage dependency - file level
                 set_property(GLOBAL APPEND PROPERTY REACTOS_CAB_DEPENDS ${item})
@@ -441,7 +441,7 @@ function(add_cd_file)
         else()
             #add it in reactos.cab
             #dir_to_num(${_CD_DESTINATION} _num)
-            #file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.dff.dyn "${_CD_FILE} ${_num}\n")
+            #file(APPEND ${BOOTMANAGER_BINARY_DIR}/src/bootdata/packages/reactos.dff.dyn "${_CD_FILE} ${_num}\n")
             #if(_CD_TARGET)
             #    #manage dependency
             #    add_dependencies(reactos_cab ${_CD_TARGET})
@@ -457,12 +457,12 @@ function(create_iso_lists)
     # begin with reactos.inf. We want this command to be always executed, so we pretend it generates another file although it will never do.
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf ${CMAKE_CURRENT_BINARY_DIR}/__some_non_existent_file
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.inf ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf
-        DEPENDS ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.inf reactos_cab_inf)
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BOOTMANAGER_BINARY_DIR}/src/bootdata/packages/reactos.inf ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf
+        DEPENDS ${BOOTMANAGER_BINARY_DIR}/src/bootdata/packages/reactos.inf reactos_cab_inf)
 
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/reactos.cab
-        COMMAND native-cabman -C ${BOOTMANAGER_BINARY_DIR}/boot/bootdata/packages/reactos.dff -RC ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf -N -P ${BOOTMANAGER_SOURCE_DIR}
+        COMMAND native-cabman -C ${BOOTMANAGER_BINARY_DIR}/src/bootdata/packages/reactos.dff -RC ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf -N -P ${BOOTMANAGER_SOURCE_DIR}
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/reactos.inf native-cabman ${_filelist})
 
     add_custom_target(reactos_cab DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/reactos.cab)
@@ -481,35 +481,35 @@ function(create_iso_lists)
 
     get_property(_filelist GLOBAL PROPERTY BOOTCD_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootcd.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/src/bootcd.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcd.$<CONFIG>.lst
-         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcd.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/src/bootcd.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/src/bootcd.cmake.lst)
 
     get_property(_filelist GLOBAL PROPERTY LIVECD_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/livecd.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/src/livecd.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/livecd.$<CONFIG>.lst
-         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/livecd.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/src/livecd.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/src/livecd.cmake.lst)
 
     get_property(_filelist GLOBAL PROPERTY HYBRIDCD_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/hybridcd.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/src/hybridcd.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/hybridcd.$<CONFIG>.lst
-         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/hybridcd.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/src/hybridcd.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/src/hybridcd.cmake.lst)
 
     get_property(_filelist GLOBAL PROPERTY BOOTCDREGTEST_FILE_LIST)
     string(REPLACE ";" "\n" _filelist "${_filelist}")
-    file(APPEND ${BOOTMANAGER_BINARY_DIR}/boot/bootcdregtest.cmake.lst "${_filelist}")
+    file(APPEND ${BOOTMANAGER_BINARY_DIR}/src/bootcdregtest.cmake.lst "${_filelist}")
     unset(_filelist)
     file(GENERATE
-         OUTPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcdregtest.$<CONFIG>.lst
-         INPUT ${BOOTMANAGER_BINARY_DIR}/boot/bootcdregtest.cmake.lst)
+         OUTPUT ${BOOTMANAGER_BINARY_DIR}/src/bootcdregtest.$<CONFIG>.lst
+         INPUT ${BOOTMANAGER_BINARY_DIR}/src/bootcdregtest.cmake.lst)
 endfunction()
 
 # Create module_clean targets
@@ -813,7 +813,7 @@ endfunction()
 function(create_registry_hives)
 
     # Shortcut to the registry.inf file
-    set(_registry_inf "${CMAKE_BINARY_DIR}/boot/bootdata/registry.inf")
+    set(_registry_inf "${CMAKE_BINARY_DIR}/src/bootdata/registry.inf")
 
     # Get the list of inf files
     get_property(_inf_files GLOBAL PROPERTY REGISTRY_INF_LIST)
@@ -842,15 +842,15 @@ function(create_registry_hives)
 
     # BootCD setup system hive
     add_custom_command(
-        OUTPUT ${CMAKE_BINARY_DIR}/boot/bootdata/SETUPREG.HIV
-        COMMAND native-mkhive -h:SETUPREG -u -d:${CMAKE_BINARY_DIR}/boot/bootdata ${CMAKE_BINARY_DIR}/boot/bootdata/hivesys_utf16.inf ${CMAKE_SOURCE_DIR}/boot/bootdata/setupreg.inf
-        DEPENDS native-mkhive ${CMAKE_BINARY_DIR}/boot/bootdata/hivesys_utf16.inf)
+        OUTPUT ${CMAKE_BINARY_DIR}/src/bootdata/SETUPREG.HIV
+        COMMAND native-mkhive -h:SETUPREG -u -d:${CMAKE_BINARY_DIR}/src/bootdata ${CMAKE_BINARY_DIR}/src/bootdata/hivesys_utf16.inf ${CMAKE_SOURCE_DIR}/src/bootdata/setupreg.inf
+        DEPENDS native-mkhive ${CMAKE_BINARY_DIR}/src/bootdata/hivesys_utf16.inf)
 
     add_custom_target(bootcd_hives
-        DEPENDS ${CMAKE_BINARY_DIR}/boot/bootdata/SETUPREG.HIV)
+        DEPENDS ${CMAKE_BINARY_DIR}/src/bootdata/SETUPREG.HIV)
 
     add_cd_file(
-        FILE ${CMAKE_BINARY_DIR}/boot/bootdata/SETUPREG.HIV
+        FILE ${CMAKE_BINARY_DIR}/src/bootdata/SETUPREG.HIV
         TARGET bootcd_hives
         DESTINATION reactos
         NO_CAB
@@ -859,52 +859,52 @@ function(create_registry_hives)
     # LiveCD hives
     list(APPEND _livecd_inf_files
         ${_registry_inf}
-        ${CMAKE_SOURCE_DIR}/boot/bootdata/livecd.inf)
+        ${CMAKE_SOURCE_DIR}/src/bootdata/livecd.inf)
     if(SARCH STREQUAL "xbox")
         list(APPEND _livecd_inf_files
-            ${CMAKE_SOURCE_DIR}/boot/bootdata/hiveinst_xbox.inf)
+            ${CMAKE_SOURCE_DIR}/src/bootdata/hiveinst_xbox.inf)
     else()
         list(APPEND _livecd_inf_files
-            ${CMAKE_SOURCE_DIR}/boot/bootdata/hiveinst.inf)
+            ${CMAKE_SOURCE_DIR}/src/bootdata/hiveinst.inf)
     endif()
 
     add_custom_command(
-        OUTPUT ${CMAKE_BINARY_DIR}/boot/bootdata/system
-               ${CMAKE_BINARY_DIR}/boot/bootdata/software
-               ${CMAKE_BINARY_DIR}/boot/bootdata/default
-               ${CMAKE_BINARY_DIR}/boot/bootdata/sam
-               ${CMAKE_BINARY_DIR}/boot/bootdata/security
-        COMMAND native-mkhive -h:SYSTEM,SOFTWARE,DEFAULT,SAM,SECURITY -d:${CMAKE_BINARY_DIR}/boot/bootdata ${_livecd_inf_files}
+        OUTPUT ${CMAKE_BINARY_DIR}/src/bootdata/system
+               ${CMAKE_BINARY_DIR}/src/bootdata/software
+               ${CMAKE_BINARY_DIR}/src/bootdata/default
+               ${CMAKE_BINARY_DIR}/src/bootdata/sam
+               ${CMAKE_BINARY_DIR}/src/bootdata/security
+        COMMAND native-mkhive -h:SYSTEM,SOFTWARE,DEFAULT,SAM,SECURITY -d:${CMAKE_BINARY_DIR}/src/bootdata ${_livecd_inf_files}
         DEPENDS native-mkhive ${_livecd_inf_files})
 
     add_custom_target(livecd_hives
-        DEPENDS ${CMAKE_BINARY_DIR}/boot/bootdata/system
-                ${CMAKE_BINARY_DIR}/boot/bootdata/software
-                ${CMAKE_BINARY_DIR}/boot/bootdata/default
-                ${CMAKE_BINARY_DIR}/boot/bootdata/sam
-                ${CMAKE_BINARY_DIR}/boot/bootdata/security)
+        DEPENDS ${CMAKE_BINARY_DIR}/src/bootdata/system
+                ${CMAKE_BINARY_DIR}/src/bootdata/software
+                ${CMAKE_BINARY_DIR}/src/bootdata/default
+                ${CMAKE_BINARY_DIR}/src/bootdata/sam
+                ${CMAKE_BINARY_DIR}/src/bootdata/security)
 
     add_cd_file(
-        FILE ${CMAKE_BINARY_DIR}/boot/bootdata/system
-             ${CMAKE_BINARY_DIR}/boot/bootdata/software
-             ${CMAKE_BINARY_DIR}/boot/bootdata/default
-             ${CMAKE_BINARY_DIR}/boot/bootdata/sam
-             ${CMAKE_BINARY_DIR}/boot/bootdata/security
+        FILE ${CMAKE_BINARY_DIR}/src/bootdata/system
+             ${CMAKE_BINARY_DIR}/src/bootdata/software
+             ${CMAKE_BINARY_DIR}/src/bootdata/default
+             ${CMAKE_BINARY_DIR}/src/bootdata/sam
+             ${CMAKE_BINARY_DIR}/src/bootdata/security
         TARGET livecd_hives
         DESTINATION reactos/system32/config
         FOR livecd)
 
     # BCD Hive
     add_custom_command(
-        OUTPUT ${CMAKE_BINARY_DIR}/boot/bootdata/BCD
-        COMMAND native-mkhive -h:BCD -u -d:${CMAKE_BINARY_DIR}/boot/bootdata ${CMAKE_BINARY_DIR}/boot/bootdata/hivebcd_utf16.inf
-        DEPENDS native-mkhive ${CMAKE_BINARY_DIR}/boot/bootdata/hivebcd_utf16.inf)
+        OUTPUT ${CMAKE_BINARY_DIR}/src/bootdata/BCD
+        COMMAND native-mkhive -h:BCD -u -d:${CMAKE_BINARY_DIR}/src/bootdata ${CMAKE_BINARY_DIR}/src/bootdata/hivebcd_utf16.inf
+        DEPENDS native-mkhive ${CMAKE_BINARY_DIR}/src/bootdata/hivebcd_utf16.inf)
 
     add_custom_target(bcd_hive
-        DEPENDS ${CMAKE_BINARY_DIR}/boot/bootdata/BCD)
+        DEPENDS ${CMAKE_BINARY_DIR}/src/bootdata/BCD)
 
     add_cd_file(
-        FILE ${CMAKE_BINARY_DIR}/boot/bootdata/BCD
+        FILE ${CMAKE_BINARY_DIR}/src/bootdata/BCD
         TARGET bcd_hive
         DESTINATION efi/boot
         NO_CAB

@@ -259,5 +259,5 @@ else()
         set(CMAKE_PDB_OUTPUT_DIRECTORY "${BOOTMANAGER_BINARY_DIR}/symbols")
     endif()
 
-    add_subdirectory(boot)
+    add_subdirectory(src)
 endif()

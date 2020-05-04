@@ -513,9 +513,9 @@ LoadWindowsCore(IN USHORT OperatingSystemVersion,
     /*
      * Default HAL and KERNEL file names.
      * See the following links to know how the file names are actually chosen:
-     * https://www.geoffchappell.com/notes/windows/boot/bcd/osloader/detecthal.htm
-     * https://www.geoffchappell.com/notes/windows/boot/bcd/osloader/hal.htm
-     * https://www.geoffchappell.com/notes/windows/boot/bcd/osloader/kernel.htm
+     * https://www.geoffchappell.com/notes/windows/src/bcd/osloader/detecthal.htm
+     * https://www.geoffchappell.com/notes/windows/src/bcd/osloader/hal.htm
+     * https://www.geoffchappell.com/notes/windows/src/bcd/osloader/kernel.htm
      */
     RtlStringCbCopyA(HalFileName   , sizeof(HalFileName)   , "hal.dll");
     RtlStringCbCopyA(KernelFileName, sizeof(KernelFileName), "ntoskrnl.exe");

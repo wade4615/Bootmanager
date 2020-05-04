@@ -64,7 +64,7 @@ _begin:
 	b	call_freeldr
 
 /*
- * lifted from ppc/boot/openfirmware/misc.S
+ * lifted from ppc/src/openfirmware/misc.S
  * Copyright (C) Paul Mackerras 1997.
  *
  * This program is free software; you can redistribute it and/or

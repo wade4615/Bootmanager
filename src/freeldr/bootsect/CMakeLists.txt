@@ -1,5 +1,5 @@
 
-include_directories(${BOOTMANAGER_SOURCE_DIR}/boot/freeldr)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/src/freeldr)
 
 if(ARCH STREQUAL "i386" OR ARCH STREQUAL "amd64")
 
