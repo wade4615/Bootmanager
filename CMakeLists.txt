@@ -18,7 +18,7 @@ endif()
 project(BOOTMANAGER)
 
 # Versioning
-include(sdk/include/reactos/version.cmake)
+include(hosttools/include/reactos/version.cmake)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
@@ -87,13 +87,13 @@ if(NOT CMAKE_CROSSCOMPILING)
             add_definitions(/Dinline=__inline)
         endif()
     endif()
-    add_subdirectory(sdk/include/host)
+    add_subdirectory(hosttools/include/host)
 
     if(NOT MSVC)
         add_subdirectory(src/dll/win32/dbghelp)
     endif()
-    add_subdirectory(sdk/tools)
-    add_subdirectory(sdk/lib)
+    add_subdirectory(hosttools/tools)
+    add_subdirectory(hosttools/lib)
 
 #    set(NATIVE_TARGETS bin2c widl gendib cabman fatten hpp isohybrid mkhive mkisofs obj2bin spec2def geninc mkshelllink utf16le xml2sdb)
 #    if(NOT MSVC)
@@ -215,34 +215,34 @@ else()
     include(config/widl-support.cmake)
 
     include_directories(
-        sdk/include
-        sdk/include/psdk
-        sdk/include/dxsdk
-        ${BOOTMANAGER_BINARY_DIR}/sdk/include
-        ${BOOTMANAGER_BINARY_DIR}/sdk/include/psdk
-        ${BOOTMANAGER_BINARY_DIR}/sdk/include/dxsdk
-        ${BOOTMANAGER_BINARY_DIR}/sdk/include/ddk
-        ${BOOTMANAGER_BINARY_DIR}/sdk/include/reactos
-        ${BOOTMANAGER_BINARY_DIR}/sdk/include/reactos/mc
-        sdk/include/crt
-        sdk/include/ddk
-        sdk/include/ndk
-        sdk/include/reactos
-        sdk/include/reactos/libs)
+        hosttools/include
+        hosttools/include/psdk
+        hosttools/include/dxsdk
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/psdk
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/dxsdk
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/ddk
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/reactos
+        ${BOOTMANAGER_BINARY_DIR}/hosttools/include/reactos/mc
+        hosttools/include/crt
+        hosttools/include/ddk
+        hosttools/include/ndk
+        hosttools/include/reactos
+        hosttools/include/reactos/libs)
 
     if(ARCH STREQUAL "arm")
-        include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/arm)
+        include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/arm)
     endif()
 
     add_dependency_header()
 
-    add_subdirectory(sdk/include/ndk/tests)
-    add_subdirectory(sdk/include/xdk)
-    add_subdirectory(sdk/include/psdk)
-    add_subdirectory(sdk/include/dxsdk)
-    add_subdirectory(sdk/include/reactos/wine)
-    add_subdirectory(sdk/include/reactos/mc)
-    add_subdirectory(sdk/include/asm)
+    add_subdirectory(hosttools/include/ndk/tests)
+    add_subdirectory(hosttools/include/xdk)
+    add_subdirectory(hosttools/include/psdk)
+    add_subdirectory(hosttools/include/dxsdk)
+    add_subdirectory(hosttools/include/reactos/wine)
+    add_subdirectory(hosttools/include/reactos/mc)
+    add_subdirectory(hosttools/include/asm)
 
     if(NO_ROSSYM)
         include(config/baseaddress_dwarf.cmake)

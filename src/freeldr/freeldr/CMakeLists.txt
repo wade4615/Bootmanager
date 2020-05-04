@@ -31,8 +31,8 @@ endif()
 include_directories(BEFORE include)
 include_directories(${BOOTMANAGER_SOURCE_DIR}/ntoskrnl/include)
 include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/lib/cmlib)
-include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/libs)
-include_directories(${BOOTMANAGER_SOURCE_DIR}/sdk/include/reactos/elf)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/libs)
+include_directories(${BOOTMANAGER_SOURCE_DIR}/hosttools/include/reactos/elf)
 
 add_definitions(-D_NTHAL_ -D_BLDR_ -D_NTSYSTEM_)
 

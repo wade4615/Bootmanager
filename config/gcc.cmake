@@ -271,14 +271,14 @@ if(CMAKE_VERSION VERSION_LESS 3.4.0)
     set(CMAKE_C_COMPILE_OBJECT "${CCACHE} <CMAKE_C_COMPILER> <DEFINES> ${_compress_debug_sections_flag} <FLAGS> -o <OBJECT> -c <SOURCE>")
     # FIXME: Once the GCC toolchain bugs are fixed, add _compress_debug_sections_flag to CXX too
     set(CMAKE_CXX_COMPILE_OBJECT "${CCACHE} <CMAKE_CXX_COMPILER> <DEFINES> <FLAGS> -o <OBJECT> -c <SOURCE>")
-    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${BOOTMANAGER_SOURCE_DIR}/sdk/include/asm -I${BOOTMANAGER_BINARY_DIR}/sdk/include/asm <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
+    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${BOOTMANAGER_SOURCE_DIR}/hosttools/include/asm -I${BOOTMANAGER_BINARY_DIR}/hosttools/include/asm <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
 
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff <FLAGS> -DRC_INVOKED -D__WIN32__=1 -D__FLAT__=1 ${I18N_DEFS} <DEFINES> <SOURCE> <OBJECT>")
 else()
     set(CMAKE_C_COMPILE_OBJECT "${CCACHE} <CMAKE_C_COMPILER> <DEFINES> ${_compress_debug_sections_flag} <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
     # FIXME: Once the GCC toolchain bugs are fixed, add _compress_debug_sections_flag to CXX too
     set(CMAKE_CXX_COMPILE_OBJECT "${CCACHE} <CMAKE_CXX_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
-    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${BOOTMANAGER_SOURCE_DIR}/sdk/include/asm -I${BOOTMANAGER_BINARY_DIR}/sdk/include/asm <INCLUDES> <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
+    set(CMAKE_ASM_COMPILE_OBJECT "<CMAKE_ASM_COMPILER> ${_compress_debug_sections_flag} -x assembler-with-cpp -o <OBJECT> -I${BOOTMANAGER_SOURCE_DIR}/hosttools/include/asm -I${BOOTMANAGER_BINARY_DIR}/hosttools/include/asm <INCLUDES> <FLAGS> <DEFINES> -D__ASM__ -c <SOURCE>")
 
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff <INCLUDES> <FLAGS> -DRC_INVOKED -D__WIN32__=1 -D__FLAT__=1 ${I18N_DEFS} <DEFINES> <SOURCE> <OBJECT>")
 endif()
@@ -463,7 +463,7 @@ function(CreateBootSectorTarget _target_name _asm_file _binary_file _base_addres
 
     add_custom_command(
         OUTPUT ${_object_file}
-        COMMAND ${CMAKE_ASM_COMPILER} -x assembler-with-cpp -o ${_object_file} -I${BOOTMANAGER_SOURCE_DIR}/sdk/include/asm -I${BOOTMANAGER_BINARY_DIR}/sdk/include/asm ${_includes} ${_defines} -D__ASM__ -c ${_asm_file}
+        COMMAND ${CMAKE_ASM_COMPILER} -x assembler-with-cpp -o ${_object_file} -I${BOOTMANAGER_SOURCE_DIR}/hosttools/include/asm -I${BOOTMANAGER_BINARY_DIR}/hosttools/include/asm ${_includes} ${_defines} -D__ASM__ -c ${_asm_file}
         DEPENDS ${_asm_file})
 
     add_custom_command(
